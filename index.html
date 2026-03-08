@@ -21,7 +21,6 @@
         .whatsapp-share { width: 92%; max-width: 450px; background: var(--whatsapp); color: #fff; border: none; padding: 16px; border-radius: 20px; font-weight: 900; font-family: 'Orbitron'; margin-top: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); transition: 0.3s; }
         .disclaimer-box { width: 88%; max-width: 400px; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 15px; border: 1px solid #1e293b; margin-top: 25px; text-align: center; }
         .disclaimer-title { color: #94a3b8; font-size: 0.7rem; font-weight: 900; font-family: 'Orbitron'; margin-bottom: 5px; display: block; }
-        .disclaimer-text { color: #64748b; font-size: 0.65rem; line-height: 1.4; }
         .firma { color: var(--neon-blue); font-size: 0.75rem; letter-spacing: 4px; font-weight: 900; margin-top: 15px; padding-bottom: 40px; cursor: pointer; font-family: 'Orbitron'; opacity: 0.7; user-select: none; }
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 9999; backdrop-filter: blur(25px); justify-content: center; align-items: center; }
         .modal-content { width: 92%; max-width: 400px; background: #0b1120; border-radius: 30px; padding: 25px; border: 1px solid var(--neon-blue); text-align: center; max-height: 90vh; overflow-y: auto; }
@@ -39,19 +38,19 @@
     <div id="reloj" class="digital-clock">00:00:00</div>
 
     <div class="main-grid">
-        <div class="lotto-card" style="border-left-color: #6366f1;" onclick="abrirDirecto('Lotto Activo')">
+        <div class="lotto-card" id="card-Lotto-Activo" style="border-left-color: #6366f1;" onclick="abrirDirecto('Lotto Activo')">
             <div>Lotto Activo</div>
             <div><span class="num-val" id="v-Lotto-Activo">--</span><span class="anim-val" id="a-Lotto-Activo">ESPERANDO</span></div>
         </div>
-        <div class="lotto-card" style="border-left-color: #00ff88;" onclick="abrirDirecto('La Granjita')">
+        <div class="lotto-card" id="card-La-Granjita" style="border-left-color: #00ff88;" onclick="abrirDirecto('La Granjita')">
             <div>La Granjita</div>
             <div><span class="num-val" id="v-La-Granjita">--</span><span class="anim-val" id="a-La-Granjita">ESPERANDO</span></div>
         </div>
-        <div class="lotto-card" style="border-left-color: var(--neon-pink);" onclick="abrirDirecto('Guácharo Activo')">
+        <div class="lotto-card" id="card-Guácharo-Activo" style="border-left-color: var(--neon-pink);" onclick="abrirDirecto('Guácharo Activo')">
             <div>Guácharo Activo</div>
             <div><span class="num-val" id="v-Guácharo-Activo">--</span><span class="anim-val" id="a-Guácharo-Activo">ESPERANDO</span></div>
         </div>
-        <div class="lotto-card" style="border-left-color: #f59e0b;" onclick="abrirDirecto('Lotto Rey')">
+        <div class="lotto-card" id="card-Lotto-Rey" style="border-left-color: #f59e0b;" onclick="abrirDirecto('Lotto Rey')">
             <div>Lotto Rey</div>
             <div><span class="num-val" id="v-Lotto-Rey">--</span><span class="anim-val" id="a-Lotto-Rey">ESPERANDO</span></div>
         </div>
@@ -60,11 +59,6 @@
     <button class="action-btn" onclick="abrirHistorial()">📜 CONSULTAR HISTORIAL</button>
     <button class="whatsapp-share" onclick="compartirApp()">ENVIAR A WHATSAPP</button>
 
-    <div class="disclaimer-box">
-        <span class="disclaimer-title">AVISO DE INFORMACIÓN</span>
-        <p class="disclaimer-text">NEXUS ANIMAL ES UN CENTRO DIGITAL DE RESULTADOS. CARÁCTER <b>ESTRICTAMENTE INFORMATIVO</b>.</p>
-    </div>
-    
     <div class="firma" id="firma-admin">CARLOSC-8K</div>
 
     <div id="modal-historial" class="modal"><div class="modal-content">
@@ -88,28 +82,26 @@
     </div></div>
 
     <script>
-        // CONEXIÓN CON TU SUPABASE NEXUSDB
         const SB_URL = "https://hzvbfpmjxhqhprehpimy.supabase.co/rest/v1/resultados";
         const SB_KEY = "sb_publishable_lErJ2rvkQkXLuCebY7485Q_iIQvdrog";
 
         async function querySupabase(method, body = null, params = "") {
             const options = {
                 method: method,
-                headers: { "apikey": SB_KEY, "Authorization": `Bearer ${SB_KEY}`, "Content-Type": "application/json", "Prefer": "return=representation" }
+                headers: { "apikey": SB_KEY, "Authorization": `Bearer ${SB_KEY}`, "Content-Type": "application/json", "Prefer": "return=minimal" }
             };
             if (body) options.body = JSON.stringify(body);
             const response = await fetch(`${SB_URL}${params}`, options);
-            return await response.json();
+            if (!response.ok) throw new Error("Error en DB");
+            return response.status === 204 ? {} : await response.json();
         }
 
         const ANIMALES = {"0":"DELFÍN","00":"BALLENA","1":"CARNERO","01":"CARNERO","2":"TORO","02":"TORO","3":"CIEMPIÉS","03":"CIEMPIÉS","4":"ALACRÁN","04":"ALACRÁN","5":"LEÓN","05":"LEÓN","6":"RANA","06":"RANA","7":"PERICO","07":"PERICO","8":"RATÓN","08":"RATÓN","9":"ÁGUILA","09":"ÁGUILA","10":"TIGRE","11":"GATO","12":"CABALLO","13":"MONO","14":"PALOMA","15":"ZORRO","16":"OSO","17":"PAVO","18":"BURRO","19":"CHIVO","20":"COCHINO","21":"GALLO","22":"CAMELLO","23":"CEBRA","24":"IGUANA","25":"GALLINA","26":"VACA","27":"PERRO","28":"ZAMURO","29":"ELEFANTE","30":"CAIMÁN","31":"LAPA","32":"ARDILLA","33":"PESCADO","34":"VENADO","35":"JIRAFA","36":"CULEBRA"};
         const HORAS_NORMAL = ["08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM"];
         const HORAS_REY = ["08:30 AM", "09:30 AM", "10:30 AM", "11:30 AM", "12:30 PM", "01:30 PM", "02:30 PM", "03:30 PM", "04:30 PM", "05:30 PM", "06:30 PM", "07:30 PM"];
 
-        let clickCount = 0;
         setInterval(() => { document.getElementById('reloj').innerText = new Date().toLocaleTimeString('es-VE', { hour12: false }); }, 1000);
 
-        function compartirApp() { window.open(`https://wa.me/?text=${encodeURIComponent("🚀 *NEXUS ANIMAL 8K*\nResultados en vivo: " + window.location.href)}`, '_blank'); }
         function abrirDirecto(l) { document.getElementById('h-lotto').value = l; abrirHistorial(); }
         function abrirHistorial() { document.getElementById('modal-historial').style.display = 'flex'; document.getElementById('h-fecha').value = new Date().toLocaleDateString('en-CA'); cargarHistorial(); }
 
@@ -119,16 +111,14 @@
             const cont = document.getElementById('hist-lista');
             cont.innerHTML = "Cargando...";
             try {
-                const data = await querySupabase('GET', null, `?fecha=eq.${f}&lotto=eq.${l}&order=hora.asc`);
+                const data = await querySupabase('GET', null, `?fecha=eq.${f}&Lotto=eq.${l}&order=hora.asc`);
                 cont.innerHTML = "";
                 data.forEach(d => { cont.innerHTML += `<div class="hist-card"><small>${d.hora}</small><br><b>${d.numero}</b><br><small>${d.animal}</small></div>`; });
                 if(data.length === 0) cont.innerHTML = "SIN DATOS";
             } catch(e) { cont.innerHTML = "ERROR"; }
         }
 
-        document.getElementById('h-fecha').addEventListener('change', cargarHistorial);
-        document.getElementById('h-lotto').addEventListener('change', cargarHistorial);
-
+        let clickCount = 0;
         document.getElementById('firma-admin').addEventListener('click', () => { clickCount++; if(clickCount >= 3) { document.getElementById('modal-admin').style.display = 'flex'; clickCount = 0; ajustarHorasAdmin(); } });
         function ajustarHorasAdmin() { const l = document.getElementById('p-lotto').value; const hSel = document.getElementById('p-hora'); hSel.innerHTML = ""; const lista = (l === "Lotto Rey") ? HORAS_REY : HORAS_NORMAL; lista.forEach(h => hSel.innerHTML += `<option value="${h}">${h}</option>`); }
         function mostrarPreview(val) { document.getElementById('p-animal-name').innerText = ANIMALES[val] || "---"; }
@@ -141,19 +131,11 @@
             const n = document.getElementById('p-num').value.trim();
             if(!f || n==="") return;
             try {
-                await querySupabase('POST', { fecha: f, lotto: l, hora: h, numero: n, animal: ANIMALES[n] || "ANIMAL" });
+                // CORRECCIÓN CLAVE: Usamos "Lotto" con L mayúscula para que coincida con Supabase
+                await querySupabase('POST', { fecha: f, Lotto: l, hora: h, numero: n, animal: ANIMALES[n] || "ANIMAL" });
                 alert("GUARDADO EXITOSAMENTE");
                 actualizarTablero();
-            } catch(e) { alert("ERROR"); }
-        }
-
-        async function borrar() {
-            const f = document.getElementById('p-fecha').value;
-            const l = document.getElementById('p-lotto').value;
-            if(confirm("¿BORRAR TODO EL DÍA?")) {
-                await querySupabase('DELETE', null, `?fecha=eq.${f}&lotto=eq.${l}`);
-                actualizarTablero();
-            }
+            } catch(e) { alert("ERROR AL GUARDAR"); }
         }
 
         async function actualizarTablero() {
@@ -162,7 +144,7 @@
                 const data = await querySupabase('GET', null, `?fecha=eq.${hoy}`);
                 ["Lotto Activo", "La Granjita", "Guácharo Activo", "Lotto Rey"].forEach(l => {
                     const id = l.replace(/ /g, "-");
-                    const filtrado = data.filter(d => d.lotto === l);
+                    const filtrado = data.filter(d => d.Lotto === l);
                     if(filtrado.length > 0) {
                         const ultimo = filtrado[filtrado.length - 1];
                         document.getElementById('v-'+id).innerText = ultimo.numero;
