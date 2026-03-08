@@ -19,8 +19,6 @@
         .anim-val { font-size: 0.85rem; color: var(--neon-blue); font-weight: bold; text-transform: uppercase; text-align: right; display: block; }
         .action-btn { width: 92%; max-width: 450px; background: linear-gradient(90deg, #1e293b, #0f172a); border: 1px solid var(--neon-blue); padding: 18px; border-radius: 20px; color: var(--neon-blue); font-weight: 900; font-family: 'Orbitron'; margin-top: 15px; cursor: pointer; outline: none; }
         .whatsapp-share { width: 92%; max-width: 450px; background: var(--whatsapp); color: #fff; border: none; padding: 16px; border-radius: 20px; font-weight: 900; font-family: 'Orbitron'; margin-top: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); transition: 0.3s; }
-        .disclaimer-box { width: 88%; max-width: 400px; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 15px; border: 1px solid #1e293b; margin-top: 25px; text-align: center; }
-        .disclaimer-title { color: #94a3b8; font-size: 0.7rem; font-weight: 900; font-family: 'Orbitron'; margin-bottom: 5px; display: block; }
         .firma { color: var(--neon-blue); font-size: 0.75rem; letter-spacing: 4px; font-weight: 900; margin-top: 15px; padding-bottom: 40px; cursor: pointer; font-family: 'Orbitron'; opacity: 0.7; user-select: none; }
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 9999; backdrop-filter: blur(25px); justify-content: center; align-items: center; }
         .modal-content { width: 92%; max-width: 400px; background: #0b1120; border-radius: 30px; padding: 25px; border: 1px solid var(--neon-blue); text-align: center; max-height: 90vh; overflow-y: auto; }
@@ -38,19 +36,19 @@
     <div id="reloj" class="digital-clock">00:00:00</div>
 
     <div class="main-grid">
-        <div class="lotto-card" id="card-Lotto-Activo" style="border-left-color: #6366f1;" onclick="abrirDirecto('Lotto Activo')">
+        <div class="lotto-card" style="border-left-color: #6366f1;" onclick="abrirDirecto('Lotto Activo')">
             <div>Lotto Activo</div>
             <div><span class="num-val" id="v-Lotto-Activo">--</span><span class="anim-val" id="a-Lotto-Activo">ESPERANDO</span></div>
         </div>
-        <div class="lotto-card" id="card-La-Granjita" style="border-left-color: #00ff88;" onclick="abrirDirecto('La Granjita')">
+        <div class="lotto-card" style="border-left-color: #00ff88;" onclick="abrirDirecto('La Granjita')">
             <div>La Granjita</div>
             <div><span class="num-val" id="v-La-Granjita">--</span><span class="anim-val" id="a-La-Granjita">ESPERANDO</span></div>
         </div>
-        <div class="lotto-card" id="card-Guácharo-Activo" style="border-left-color: var(--neon-pink);" onclick="abrirDirecto('Guácharo Activo')">
+        <div class="lotto-card" style="border-left-color: var(--neon-pink);" onclick="abrirDirecto('Guácharo Activo')">
             <div>Guácharo Activo</div>
             <div><span class="num-val" id="v-Guácharo-Activo">--</span><span class="anim-val" id="a-Guácharo-Activo">ESPERANDO</span></div>
         </div>
-        <div class="lotto-card" id="card-Lotto-Rey" style="border-left-color: #f59e0b;" onclick="abrirDirecto('Lotto Rey')">
+        <div class="lotto-card" style="border-left-color: #f59e0b;" onclick="abrirDirecto('Lotto Rey')">
             <div>Lotto Rey</div>
             <div><span class="num-val" id="v-Lotto-Rey">--</span><span class="anim-val" id="a-Lotto-Rey">ESPERANDO</span></div>
         </div>
@@ -82,18 +80,24 @@
     </div></div>
 
     <script>
-        const SB_URL = "https://hzvbfpmjxhqhprehpimy.supabase.co/rest/v1/resultados";
+        // CONFIGURACIÓN CORREGIDA
+        const SB_URL = "https://hzvbfpmjxhqhpruhpimy.supabase.co/rest/v1/resultados";
         const SB_KEY = "sb_publishable_lErJ2rvkQkXLuCebY7485Q_iIQvdrog";
 
         async function querySupabase(method, body = null, params = "") {
             const options = {
                 method: method,
-                headers: { "apikey": SB_KEY, "Authorization": `Bearer ${SB_KEY}`, "Content-Type": "application/json", "Prefer": "return=minimal" }
+                headers: { 
+                    "apikey": SB_KEY, 
+                    "Authorization": `Bearer ${SB_KEY}`, 
+                    "Content-Type": "application/json", 
+                    "Prefer": "return=minimal" 
+                }
             };
             if (body) options.body = JSON.stringify(body);
             const response = await fetch(`${SB_URL}${params}`, options);
-            if (!response.ok) throw new Error("Error en DB");
-            return response.status === 204 ? {} : await response.json();
+            if (!response.ok) throw new Error("Error DB");
+            return response.status === 204 ? [] : await response.json();
         }
 
         const ANIMALES = {"0":"DELFÍN","00":"BALLENA","1":"CARNERO","01":"CARNERO","2":"TORO","02":"TORO","3":"CIEMPIÉS","03":"CIEMPIÉS","4":"ALACRÁN","04":"ALACRÁN","5":"LEÓN","05":"LEÓN","6":"RANA","06":"RANA","7":"PERICO","07":"PERICO","8":"RATÓN","08":"RATÓN","9":"ÁGUILA","09":"ÁGUILA","10":"TIGRE","11":"GATO","12":"CABALLO","13":"MONO","14":"PALOMA","15":"ZORRO","16":"OSO","17":"PAVO","18":"BURRO","19":"CHIVO","20":"COCHINO","21":"GALLO","22":"CAMELLO","23":"CEBRA","24":"IGUANA","25":"GALLINA","26":"VACA","27":"PERRO","28":"ZAMURO","29":"ELEFANTE","30":"CAIMÁN","31":"LAPA","32":"ARDILLA","33":"PESCADO","34":"VENADO","35":"JIRAFA","36":"CULEBRA"};
@@ -102,8 +106,9 @@
 
         setInterval(() => { document.getElementById('reloj').innerText = new Date().toLocaleTimeString('es-VE', { hour12: false }); }, 1000);
 
+        function compartirApp() { window.open(`https://wa.me/?text=${encodeURIComponent("🚀 *NEXUS ANIMAL 8K*\nResultados en vivo: " + window.location.href)}`, '_blank'); }
         function abrirDirecto(l) { document.getElementById('h-lotto').value = l; abrirHistorial(); }
-        function abrirHistorial() { document.getElementById('modal-historial').style.display = 'flex'; document.getElementById('h-fecha').value = new Date().toLocaleDateString('en-CA'); cargarHistorial(); }
+        function abrirHistorial() { document.getElementById('modal-historial').style.display = 'flex'; document.getElementById('h-fecha').value = new Date().toISOString().split('T')[0]; cargarHistorial(); }
 
         async function cargarHistorial() {
             const f = document.getElementById('h-fecha').value;
@@ -111,6 +116,7 @@
             const cont = document.getElementById('hist-lista');
             cont.innerHTML = "Cargando...";
             try {
+                // Filtramos por fecha y Lotto (con L mayúscula)
                 const data = await querySupabase('GET', null, `?fecha=eq.${f}&Lotto=eq.${l}&order=hora.asc`);
                 cont.innerHTML = "";
                 data.forEach(d => { cont.innerHTML += `<div class="hist-card"><small>${d.hora}</small><br><b>${d.numero}</b><br><small>${d.animal}</small></div>`; });
@@ -118,11 +124,29 @@
             } catch(e) { cont.innerHTML = "ERROR"; }
         }
 
+        document.getElementById('h-fecha').addEventListener('change', cargarHistorial);
+        document.getElementById('h-lotto').addEventListener('change', cargarHistorial);
+
         let clickCount = 0;
         document.getElementById('firma-admin').addEventListener('click', () => { clickCount++; if(clickCount >= 3) { document.getElementById('modal-admin').style.display = 'flex'; clickCount = 0; ajustarHorasAdmin(); } });
-        function ajustarHorasAdmin() { const l = document.getElementById('p-lotto').value; const hSel = document.getElementById('p-hora'); hSel.innerHTML = ""; const lista = (l === "Lotto Rey") ? HORAS_REY : HORAS_NORMAL; lista.forEach(h => hSel.innerHTML += `<option value="${h}">${h}</option>`); }
+        
+        function ajustarHorasAdmin() { 
+            const l = document.getElementById('p-lotto').value; 
+            const hSel = document.getElementById('p-hora'); 
+            hSel.innerHTML = ""; 
+            const lista = (l === "Lotto Rey") ? HORAS_REY : HORAS_NORMAL; 
+            lista.forEach(h => hSel.innerHTML += `<option value="${h}">${h}</option>`); 
+        }
+
         function mostrarPreview(val) { document.getElementById('p-animal-name').innerText = ANIMALES[val] || "---"; }
-        function validar() { if(document.getElementById('pass').value === "45Bc*.Ks*9") { document.getElementById('login-sec').style.display = 'none'; document.getElementById('panel-sec').style.display = 'block'; document.getElementById('p-fecha').value = new Date().toLocaleDateString('en-CA'); } else { alert("ERROR"); } }
+
+        function validar() { 
+            if(document.getElementById('pass').value === "45Bc*.Ks*9") { 
+                document.getElementById('login-sec').style.display = 'none'; 
+                document.getElementById('panel-sec').style.display = 'block'; 
+                document.getElementById('p-fecha').value = new Date().toISOString().split('T')[0];
+            } else { alert("ERROR"); } 
+        }
 
         async function publicar() {
             const f = document.getElementById('p-fecha').value;
@@ -131,15 +155,15 @@
             const n = document.getElementById('p-num').value.trim();
             if(!f || n==="") return;
             try {
-                // CORRECCIÓN CLAVE: Usamos "Lotto" con L mayúscula para que coincida con Supabase
+                // Enviamos Lotto con L mayúscula para coincidir con Supabase
                 await querySupabase('POST', { fecha: f, Lotto: l, hora: h, numero: n, animal: ANIMALES[n] || "ANIMAL" });
                 alert("GUARDADO EXITOSAMENTE");
                 actualizarTablero();
-            } catch(e) { alert("ERROR AL GUARDAR"); }
+            } catch(e) { alert("ERROR AL GUARDAR: Verifique conexión"); }
         }
 
         async function actualizarTablero() {
-            const hoy = new Date().toLocaleDateString('en-CA');
+            const hoy = new Date().toISOString().split('T')[0];
             try {
                 const data = await querySupabase('GET', null, `?fecha=eq.${hoy}`);
                 ["Lotto Activo", "La Granjita", "Guácharo Activo", "Lotto Rey"].forEach(l => {
@@ -151,10 +175,16 @@
                         document.getElementById('a-'+id).innerText = ultimo.animal;
                     }
                 });
-            } catch(e) { console.log("Actualizando..."); }
+            } catch(e) { console.log("Refrescando..."); }
         }
 
-        function cerrarModales() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); document.getElementById('pass').value = ""; document.getElementById('login-sec').style.display = 'block'; document.getElementById('panel-sec').style.display = 'none'; }
+        function cerrarModales() { 
+            document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); 
+            document.getElementById('pass').value = ""; 
+            document.getElementById('login-sec').style.display = 'block'; 
+            document.getElementById('panel-sec').style.display = 'none'; 
+        }
+
         window.onload = () => { actualizarTablero(); setInterval(actualizarTablero, 30000); };
     </script>
 </body>
