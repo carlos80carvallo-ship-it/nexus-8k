@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -124,14 +123,32 @@
     </div>
 
     <script>
+        // CONEXIÓN OFICIAL SUPABASE
+        const SUPABASE_URL = 'https://hzvbfpmjxhqhpruhpimy.supabase.co';
+        const SUPABASE_KEY = 'Sb_publishable_lErJ2rvkQkXLuCebY7485Q_iIQvdrog';
+
         const ANIMALES = {"0":"DELFÍN","00":"BALLENA","1":"CARNERO","01":"CARNERO","2":"TORO","02":"TORO","3":"CIEMPIÉS","03":"CIEMPIÉS","4":"ALACRÁN","04":"ALACRÁN","5":"LEÓN","05":"LEÓN","6":"RANA","06":"RANA","7":"PERICO","07":"PERICO","8":"RATÓN","08":"RATÓN","9":"ÁGUILA","09":"ÁGUILA","10":"TIGRE","11":"GATO","12":"CABALLO","13":"MONO","14":"PALOMA","15":"ZORRO","16":"OSO","17":"PAVO","18":"BURRO","19":"CHIVO","20":"COCHINO","21":"GALLO","22":"CAMELLO","23":"CEBRA","24":"IGUANA","25":"GALLINA","26":"VACA","27":"PERRO","28":"ZAMURO","29":"ELEFANTE","30":"CAIMÁN","31":"LAPA","32":"ARDILLA","33":"PESCADO","34":"VENADO","35":"JIRAFA","36":"CULEBRA","37":"TORTUGA","38":"BÚFALO","39":"LECHUZA","40":"AVISPA","41":"CANGURO","42":"TUCÁN","43":"MARIPOSA","44":"CHIGÜIRE","45":"GARZA","46":"PUMA","47":"PAVO REAL","48":"PUERCOESPÍN","49":"PEREZA","50":"CANARIO","51":"PELÍCANO","52":"PULPO","53":"CARACOL","54":"GRILLO","55":"OSO HORMIGUERO","56":"TIBURÓN","57":"PAVO","58":"HORMIGA","59":"PANTERA","60":"CAMALEÓN","61":"PANDA","62":"CACHICAMO","63":"CANGREJO","64":"GAVILÁN","65":"ARAÑA","66":"LOBO","67":"AVESTRUZ","68":"JAGUAR","69":"CONEJO","70":"BISOTE","71":"GUACAMAYA","72":"CORILA","73":"HIPOPÓTAMO","74":"TURPIAL","75":"GUACAMAYA"};
         const HORAS_NORMAL = ["08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM"];
         const HORAS_REY = ["08:30 AM", "09:30 AM", "10:30 AM", "11:30 AM", "12:30 PM", "01:30 PM", "02:30 PM", "03:30 PM", "04:30 PM", "05:30 PM", "06:30 PM", "07:30 PM"];
 
-        let DB = JSON.parse(localStorage.getItem('NEXUS_DB')) || {};
         let clickCount = 0;
 
-        // RELOJ CORREGIDO Y MARCHANTES
+        // Función para hablar con Supabase
+        async function querySupabase(method, body = null, query = "") {
+            const options = {
+                method: method,
+                headers: { 
+                    'apikey': SUPABASE_KEY, 
+                    'Authorization': `Bearer ${SUPABASE_KEY}`, 
+                    'Content-Type': 'application/json', 
+                    'Prefer': 'return=representation' 
+                }
+            };
+            if (body) options.body = JSON.stringify(body);
+            const resp = await fetch(`${SUPABASE_URL}/rest/v1/resultados${query}`, options);
+            return await resp.json();
+        }
+
         function actualizarReloj() {
             const now = new Date();
             const h = String(now.getHours()).padStart(2, '0');
@@ -160,23 +177,20 @@
             cargarHistorial();
         }
 
-        function cargarHistorial() {
+        async function cargarHistorial() {
             const f = document.getElementById('h-fecha').value;
             const l = document.getElementById('h-lotto').value;
             const cont = document.getElementById('hist-lista');
-            cont.innerHTML = "";
-            const horas = (l === "Lotto Rey") ? HORAS_REY : HORAS_NORMAL;
-            
-            if(DB[f] && DB[f][l]) {
-                horas.forEach(h => {
-                    if(DB[f][l][h]) {
-                        const d = DB[f][l][h];
-                        cont.innerHTML += `<div class="hist-card"><small>${h}</small><br><b>${d.n}</b><br><small>${d.a}</small></div>`;
-                    }
-                });
-            } else {
-                cont.innerHTML = "<p style='grid-column:1/-1; opacity:0.4;'>SIN DATOS</p>";
-            }
+            cont.innerHTML = "<p style='color:cyan;'>CARGANDO...</p>";
+            try {
+                const data = await querySupabase('GET', null, `?fecha=eq.${f}&lotto=eq.${l}&order=hora.asc`);
+                cont.innerHTML = "";
+                if (data.length > 0) {
+                    data.forEach(d => {
+                        cont.innerHTML += `<div class="hist-card"><small>${d.hora}</small><br><b>${d.numero}</b><br><small>${d.animal}</small></div>`;
+                    });
+                } else { cont.innerHTML = "<p style='grid-column:1/-1; opacity:0.4;'>SIN DATOS</p>"; }
+            } catch (e) { cont.innerHTML = "ERROR DE CONEXIÓN"; }
         }
 
         document.getElementById('h-fecha').addEventListener('change', cargarHistorial);
@@ -199,9 +213,7 @@
             lista.forEach(h => hSel.innerHTML += `<option value="${h}">${h}</option>`);
         }
 
-        function mostrarPreview(val) {
-            document.getElementById('p-animal-name').innerText = ANIMALES[val] || "---";
-        }
+        function mostrarPreview(val) { document.getElementById('p-animal-name').innerText = ANIMALES[val] || "---"; }
 
         function validar() {
             if(document.getElementById('pass').value === "45Bc*.Ks*9") {
@@ -211,46 +223,42 @@
             } else { alert("ERROR"); }
         }
 
-        function publicar() {
+        async function publicar() {
             const f = document.getElementById('p-fecha').value;
             const l = document.getElementById('p-lotto').value;
             const h = document.getElementById('p-hora').value;
             const n = document.getElementById('p-num').value.trim();
             if(!f || n==="") return;
-            
-            if(!DB[f]) DB[f] = {};
-            if(!DB[f][l]) DB[f][l] = {};
-            DB[f][l][h] = { n: n, a: ANIMALES[n] || "ANIMAL" };
-            
-            localStorage.setItem('NEXUS_DB', JSON.stringify(DB));
-            actualizarTablero();
-            alert("GUARDADO");
+            try {
+                await querySupabase('POST', { fecha: f, lotto: l, hora: h, numero: n, animal: ANIMALES[n] || "ANIMAL" });
+                alert("GUARDADO EXITOSAMENTE");
+                actualizarTablero();
+            } catch (e) { alert("ERROR AL GUARDAR"); }
         }
 
-        function borrar() {
+        async function borrar() {
             const f = document.getElementById('p-fecha').value;
             const l = document.getElementById('p-lotto').value;
-            if(DB[f] && DB[f][l] && confirm("¿BORRAR DÍA?")) {
-                delete DB[f][l];
-                localStorage.setItem('NEXUS_DB', JSON.stringify(DB));
+            if(confirm("¿BORRAR TODO EL DÍA DE ESTE SORTEO?")) {
+                await querySupabase('DELETE', null, `?fecha=eq.${f}&lotto=eq.${l}`);
                 actualizarTablero();
             }
         }
 
-        function actualizarTablero() {
+        async function actualizarTablero() {
             const hoy = new Date().toISOString().split('T')[0];
-            ["Lotto Activo", "La Granjita", "Guácharo Activo", "Lotto Rey"].forEach(l => {
-                const id = l.replace(/ /g, "-");
-                const hLista = (l === "Lotto Rey") ? HORAS_REY : HORAS_NORMAL;
-                if(DB[hoy] && DB[hoy][l]) {
-                    let uH = "";
-                    hLista.forEach(h => { if(DB[hoy][l][h]) uH = h; });
-                    if(uH) {
-                        document.getElementById('v-'+id).innerText = DB[hoy][l][uH].n;
-                        document.getElementById('a-'+id).innerText = DB[hoy][l][uH].a;
+            try {
+                const data = await querySupabase('GET', null, `?fecha=eq.${hoy}`);
+                ["Lotto Activo", "La Granjita", "Guácharo Activo", "Lotto Rey"].forEach(l => {
+                    const id = l.replace(/ /g, "-");
+                    const filtrado = data.filter(d => d.lotto === l);
+                    if(filtrado.length > 0) {
+                        const ultimo = filtrado[filtrado.length - 1];
+                        document.getElementById('v-'+id).innerText = ultimo.numero;
+                        document.getElementById('a-'+id).innerText = ultimo.animal;
                     }
-                }
-            });
+                });
+            } catch (e) { console.log("Refrescando..."); }
         }
 
         function cerrarModales() {
@@ -260,7 +268,7 @@
             document.getElementById('panel-sec').style.display = 'none';
         }
 
-        window.onload = actualizarTablero;
+        window.onload = () => { actualizarTablero(); setInterval(actualizarTablero, 30000); };
     </script>
 </body>
 </html>
