@@ -1,170 +1,29 @@
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-    <title>NEXUS ANIMAL 8K - Resultados Oficiales por CarlosC</title>
-    <meta name="description" content="Resultados en vivo de Lotto Activo, La Granjita, Guácharo Activo y Lotto Rey. La plataforma élite con historial y tecnología 8K.">
-    <meta name="keywords" content="Nexus Animal, Resultados en vivo, CarlosC, Lotto Activo, La Granjita, Lotería Venezuela">
-    <meta name="author" content="CarlosC-8K">
-    
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💎</text></svg>">
-
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
-    <style>
-        :root { --neon-blue: #00f3ff; --neon-pink: #ff00c1; --glass: rgba(255, 255, 255, 0.08); --whatsapp: #25D366; }
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { background: radial-gradient(circle at center, #0f172a 0%, #020617 100%); color: #fff; font-family: 'Rajdhani', sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
-
-        .en-vivo { color: #ff4d4d; font-weight: bold; font-size: 0.9rem; margin-top: 20px; letter-spacing: 3px; animation: blink 1.2s infinite; font-family: 'Orbitron'; }
-        @keyframes blink { 0%, 100% { opacity: 1; text-shadow: 0 0 10px #ff4d4d; } 50% { opacity: 0.2; } }
-        
-        .logo-container h1 { font-family: 'Orbitron', sans-serif; font-size: 3rem; font-weight: 900; background: linear-gradient(to bottom, #fff 20%, var(--neon-blue) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; line-height: 0.9; margin-top: 10px; }
-        .digital-clock { font-family: 'Orbitron', sans-serif; font-size: 2.2rem; color: var(--neon-blue); text-align: center; margin: 10px 0; text-shadow: 0 0 15px rgba(0, 243, 255, 0.5); min-height: 2.5rem; }
-
-        .main-grid { width: 92%; max-width: 450px; display: flex; flex-direction: column; gap: 12px; margin-top: 5px; }
-        .lotto-card { background: var(--glass); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); padding: 20px; border-radius: 22px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid var(--neon-blue); cursor: pointer; transition: 0.3s; }
-        
-        .num-val { font-family: 'Orbitron'; font-size: 1.8rem; color: #fff; display: block; text-align: right; }
-        .anim-val { font-size: 0.85rem; color: var(--neon-blue); font-weight: bold; text-transform: uppercase; text-align: right; display: block; }
-
-        .action-btn { width: 92%; max-width: 450px; background: linear-gradient(90deg, #1e293b, #0f172a); border: 1px solid var(--neon-blue); padding: 18px; border-radius: 20px; color: var(--neon-blue); font-weight: 900; font-family: 'Orbitron'; margin-top: 15px; cursor: pointer; outline: none; }
-
-        .whatsapp-share { width: 92%; max-width: 450px; background: var(--whatsapp); color: #fff; border: none; padding: 16px; border-radius: 20px; font-weight: 900; font-family: 'Orbitron'; margin-top: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); transition: 0.3s; }
-
-        .disclaimer-box { width: 88%; max-width: 400px; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 15px; border: 1px solid #1e293b; margin-top: 25px; text-align: center; }
-        .disclaimer-title { color: #94a3b8; font-size: 0.7rem; font-weight: 900; font-family: 'Orbitron'; margin-bottom: 5px; display: block; }
-        .disclaimer-text { color: #64748b; font-size: 0.65rem; line-height: 1.4; }
-
-        .firma { color: var(--neon-blue); font-size: 0.75rem; letter-spacing: 4px; font-weight: 900; margin-top: 15px; padding-bottom: 40px; cursor: pointer; font-family: 'Orbitron'; opacity: 0.7; user-select: none; }
-
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 9999; backdrop-filter: blur(25px); justify-content: center; align-items: center; }
-        .modal-content { width: 92%; max-width: 400px; background: #0b1120; border-radius: 30px; padding: 25px; border: 1px solid var(--neon-blue); text-align: center; max-height: 90vh; overflow-y: auto; }
-        
-        input, select { width: 100%; padding: 14px; margin: 8px 0; border-radius: 12px; background: rgba(255,255,255,0.05); border: 1px solid #334155; color: white; font-family: 'Rajdhani'; font-size: 1.1rem; outline: none; }
-        .preview-animal { font-family: 'Orbitron'; color: var(--neon-pink); font-size: 1.2rem; margin: 10px 0; min-height: 1.5rem; text-shadow: 0 0 10px var(--neon-pink); }
-        .btn-panel { width: 100%; padding: 14px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; margin-top: 8px; font-family: 'Orbitron'; }
-
-        .hist-lista { margin-top: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .hist-card { background: rgba(255,255,255,0.04); padding: 10px; border-radius: 12px; border-bottom: 2px solid var(--neon-blue); text-align: center; }
-    </style>
-</head>
-<body>
-
-    <div class="en-vivo">● NEXUS 8K LIVE</div>
-    <div class="logo-container"><h1>NEXUS<br>ANIMAL</h1></div>
-    <div id="reloj" class="digital-clock">00:00:00</div>
-
-    <div class="main-grid">
-        <div class="lotto-card" style="border-left-color: #6366f1;" onclick="abrirDirecto('Lotto Activo')">
-            <div>Lotto Activo</div>
-            <div><span class="num-val" id="v-Lotto-Activo">--</span><span class="anim-val" id="a-Lotto-Activo">ESPERANDO</span></div>
-        </div>
-        <div class="lotto-card" style="border-left-color: #00ff88;" onclick="abrirDirecto('La Granjita')">
-            <div>La Granjita</div>
-            <div><span class="num-val" id="v-La-Granjita">--</span><span class="anim-val" id="a-La-Granjita">ESPERANDO</span></div>
-        </div>
-        <div class="lotto-card" style="border-left-color: var(--neon-pink);" onclick="abrirDirecto('Guácharo Activo')">
-            <div>Guácharo Activo</div>
-            <div><span class="num-val" id="v-Guácharo-Activo">--</span><span class="anim-val" id="a-Guácharo-Activo">ESPERANDO</span></div>
-        </div>
-        <div class="lotto-card" style="border-left-color: #f59e0b;" onclick="abrirDirecto('Lotto Rey')">
-            <div>Lotto Rey</div>
-            <div><span class="num-val" id="v-Lotto-Rey">--</span><span class="anim-val" id="a-Lotto-Rey">ESPERANDO</span></div>
-        </div>
-    </div>
-
-    <button class="action-btn" onclick="abrirHistorial()">📜 CONSULTAR HISTORIAL</button>
-
-    <button class="whatsapp-share" onclick="compartirApp()">
-        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-2.32 0-4.519.903-6.16 2.544-1.64 1.641-2.543 3.841-2.543 6.162 0 1.514.383 2.99 1.111 4.3l-1.181 4.312 4.413-1.157c1.258.686 2.67 1.048 4.108 1.048 2.321 0 4.52-.903 6.162-2.544 1.64-1.641 2.543-3.841 2.543-6.162 0-2.322-.903-4.521-2.543-6.162-1.642-1.641-3.841-2.544-6.162-2.544zM16.512 17.513c-.233.659-1.345 1.205-1.859 1.282-.459.068-.646.223-2.511-.518-2.206-.876-3.623-3.125-3.733-3.272-.11-.147-.893-1.186-.893-2.26 0-1.074.568-1.601.769-1.821.202-.22.44-.275.587-.275s.293.001.422.006c.137.005.321-.052.504.385.183.437.623 1.52.678 1.63.055.11.091.238.018.385s-.11.238-.22.366c-.11.128-.23.284-.33.385s-.216.211-.093.422c.124.211.549.906 1.18 1.468.812.723 1.495.947 1.706 1.053s.33.083.454-.055c.124-.138.532-.619.674-.83.142-.211.284-.174.476-.101s1.229.58 1.44 0.685c.211.105.351.156.402.247.051.092.051.531-.182 1.19z"/></svg>
-        ENVIAR A WHATSAPP
-    </button>
-
-    <div class="disclaimer-box">
-        <span class="disclaimer-title">AVISO DE INFORMACIÓN</span>
-        <p class="disclaimer-text">
-            NEXUS ANIMAL ES UN CENTRO DIGITAL DE RESULTADOS. ESTA APLICACIÓN ES DE CARÁCTER <b>ESTRICTAMENTE INFORMATIVO</b>.
-        </p>
-    </div>
-    
-    <div class="firma" id="firma-admin">CARLOSC-8K</div>
-
-    <div id="modal-historial" class="modal">
-        <div class="modal-content">
-            <h2 style="color:var(--neon-blue); font-family:'Orbitron';">HISTORIAL</h2>
-            <input type="date" id="h-fecha">
-            <select id="h-lotto">
-                <option>Lotto Activo</option><option>La Granjita</option><option>Guácharo Activo</option><option>Lotto Rey</option>
-            </select>
-            <div id="hist-lista" class="hist-lista"></div>
-            <button class="btn-panel" style="background:var(--neon-blue); color:black; margin-top:20px;" onclick="cerrarModales()">CERRAR</button>
-        </div>
-    </div>
-
-    <div id="modal-admin" class="modal">
-        <div class="modal-content">
-            <h2 style="color:var(--neon-pink); font-family:'Orbitron';">MASTER PANEL</h2>
-            <div id="login-sec">
-                <input type="password" id="pass" placeholder="PASSWORD">
-                <button class="btn-panel" style="background:var(--neon-pink); color:white;" onclick="validar()">ACCEDER</button>
-            </div>
-            <div id="panel-sec" style="display:none;">
-                <input type="date" id="p-fecha">
-                <select id="p-lotto" onchange="ajustarHorasAdmin()"><option>Lotto Activo</option><option>La Granjita</option><option>Guácharo Activo</option><option>Lotto Rey</option></select>
-                <select id="p-hora"></select>
-                <input type="text" id="p-num" placeholder="NÚMERO" oninput="mostrarPreview(this.value)">
-                <div id="p-animal-name" class="preview-animal">---</div>
-                <button class="btn-panel" style="background:#22c55e; color:white;" onclick="publicar()">GUARDAR RESULTADO</button>
-                <button class="btn-panel" style="background:#ef4444; color:white; margin-top:15px;" onclick="borrar()">BORRAR DÍA</button>
-            </div>
-            <button class="btn-panel" onclick="cerrarModales()" style="background:#334155; color:white; margin-top:10px;">SALIR</button>
-        </div>
-    </div>
-
     <script>
-        // CONEXIÓN OFICIAL SUPABASE
-        const SUPABASE_URL = 'https://hzvbfpmjxhqhpruhpimy.supabase.co';
-        const SUPABASE_KEY = 'Sb_publishable_lErJ2rvkQkXLuCebY7485Q_iIQvdrog';
+        // CONFIGURACIÓN DE TU SUPABASE (NEXUSDB)
+        const SB_URL = "https://hzvbfpmjxhqhprehpimy.supabase.co/rest/v1/resultados";
+        const SB_KEY = "sb_publishable_lErJ2rvkQkXLuCebY7485Q_iIQvdrog"; // Tu llave pública
 
-        const ANIMALES = {"0":"DELFÍN","00":"BALLENA","1":"CARNERO","01":"CARNERO","2":"TORO","02":"TORO","3":"CIEMPIÉS","03":"CIEMPIÉS","4":"ALACRÁN","04":"ALACRÁN","5":"LEÓN","05":"LEÓN","6":"RANA","06":"RANA","7":"PERICO","07":"PERICO","8":"RATÓN","08":"RATÓN","9":"ÁGUILA","09":"ÁGUILA","10":"TIGRE","11":"GATO","12":"CABALLO","13":"MONO","14":"PALOMA","15":"ZORRO","16":"OSO","17":"PAVO","18":"BURRO","19":"CHIVO","20":"COCHINO","21":"GALLO","22":"CAMELLO","23":"CEBRA","24":"IGUANA","25":"GALLINA","26":"VACA","27":"PERRO","28":"ZAMURO","29":"ELEFANTE","30":"CAIMÁN","31":"LAPA","32":"ARDILLA","33":"PESCADO","34":"VENADO","35":"JIRAFA","36":"CULEBRA","37":"TORTUGA","38":"BÚFALO","39":"LECHUZA","40":"AVISPA","41":"CANGURO","42":"TUCÁN","43":"MARIPOSA","44":"CHIGÜIRE","45":"GARZA","46":"PUMA","47":"PAVO REAL","48":"PUERCOESPÍN","49":"PEREZA","50":"CANARIO","51":"PELÍCANO","52":"PULPO","53":"CARACOL","54":"GRILLO","55":"OSO HORMIGUERO","56":"TIBURÓN","57":"PAVO","58":"HORMIGA","59":"PANTERA","60":"CAMALEÓN","61":"PANDA","62":"CACHICAMO","63":"CANGREJO","64":"GAVILÁN","65":"ARAÑA","66":"LOBO","67":"AVESTRUZ","68":"JAGUAR","69":"CONEJO","70":"BISOTE","71":"GUACAMAYA","72":"CORILA","73":"HIPOPÓTAMO","74":"TURPIAL","75":"GUACAMAYA"};
-        const HORAS_NORMAL = ["08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM"];
-        const HORAS_REY = ["08:30 AM", "09:30 AM", "10:30 AM", "11:30 AM", "12:30 PM", "01:30 PM", "02:30 PM", "03:30 PM", "04:30 PM", "05:30 PM", "06:30 PM", "07:30 PM"];
-
-        let clickCount = 0;
-
-        // Función para hablar con Supabase
-        async function querySupabase(method, body = null, query = "") {
+        // FUNCIÓN MAESTRA DE CONEXIÓN
+        async function querySupabase(method, body = null, params = "") {
             const options = {
                 method: method,
-                headers: { 
-                    'apikey': SUPABASE_KEY, 
-                    'Authorization': `Bearer ${SUPABASE_KEY}`, 
-                    'Content-Type': 'application/json', 
-                    'Prefer': 'return=representation' 
+                headers: {
+                    "apikey": SB_KEY,
+                    "Authorization": `Bearer ${SB_KEY}`,
+                    "Content-Type": "application/json",
+                    "Prefer": "return=representation"
                 }
             };
             if (body) options.body = JSON.stringify(body);
-            const resp = await fetch(`${SUPABASE_URL}/rest/v1/resultados${query}`, options);
-            return await resp.json();
+            const response = await fetch(`${SB_URL}${params}`, options);
+            if (!response.ok) throw new Error("Error en Supabase");
+            return await response.json();
         }
 
-        function actualizarReloj() {
-            const now = new Date();
-            const h = String(now.getHours()).padStart(2, '0');
-            const m = String(now.getMinutes()).padStart(2, '0');
-            const s = String(now.getSeconds()).padStart(2, '0');
-            const relojElem = document.getElementById('reloj');
-            if(relojElem) relojElem.innerText = `${h}:${m}:${s}`;
-        }
-        setInterval(actualizarReloj, 1000);
-        actualizarReloj();
-
-        function compartirApp() {
-            const url = window.location.href;
-            const msg = encodeURIComponent("🚀 *NEXUS ANIMAL 8K*\nResultados al instante. Únete aquí: ");
-            window.open(`https://wa.me/?text=${msg}${url}`, '_blank');
-        }
+        let clickCount = 0;
+        const ANIMALES = { "0":"DELFÍN","00":"BALLENA","1":"CARNERO","2":"TORO","3":"CIEMPIÉS","4":"ALACRÁN","5":"LEÓN","6":"RANA","7":"PERICO","8":"RATÓN","9":"ÁGUILA","10":"TIGRE","11":"GATO","12":"CABALLO","13":"MONO","14":"PALOMA","15":"ZORRO","16":"OSO","17":"PAVO","18":"BURRO","19":"CHIVO","20":"COCHINO","21":"GALLO","22":"CAMELLO","23":"CEBRA","24":"IGUANA","25":"GALLINA","26":"VACA","27":"PERRO","28":"ZAMURO","29":"ELEFANTE","30":"CAIMÁN","31":"LAPA","32":"ARDILLA","33":"PESCADO","34":"VENADO","35":"JIRAFA","36":"CULEBRA" };
+        const HORAS_NORMAL = ["09:00 AM","10:00 AM","11:00 AM","12:00 PM","01:00 PM","03:00 PM","04:00 PM","05:00 PM","06:00 PM","07:00 PM"];
+        const HORAS_REY = ["01:10 PM","04:10 PM","07:10 PM"];
 
         function abrirDirecto(l) {
             document.getElementById('h-lotto').value = l;
@@ -230,6 +89,7 @@
             const n = document.getElementById('p-num').value.trim();
             if(!f || n==="") return;
             try {
+                // AQUÍ SE ENVÍA A TU TABLA REAL
                 await querySupabase('POST', { fecha: f, lotto: l, hora: h, numero: n, animal: ANIMALES[n] || "ANIMAL" });
                 alert("GUARDADO EXITOSAMENTE");
                 actualizarTablero();
@@ -258,7 +118,7 @@
                         document.getElementById('a-'+id).innerText = ultimo.animal;
                     }
                 });
-            } catch (e) { console.log("Refrescando..."); }
+            } catch (e) { console.log("Cargando..."); }
         }
 
         function cerrarModales() {
@@ -269,6 +129,5 @@
         }
 
         window.onload = () => { actualizarTablero(); setInterval(actualizarTablero, 30000); };
-    </script>
-</body>
-</html>
+                    </script>
+                    
