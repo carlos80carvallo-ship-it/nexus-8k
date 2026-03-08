@@ -89,7 +89,8 @@
     <footer id="firma-admin">© 2026 NEXUS-8K TECHNOLOGIES</footer>
 
     <script>
-        const SB_URL = "https://hzvbfpmjxhqhprehpimy.supabase.co/rest/v1/resultados";
+        // ESTOS SON LOS DOS LINKS QUE NECESITABAS
+        const SB_URL = "https://hzvbfpmjxhqhprehpimy.supabase.co/rest/v1/resultados"; 
         const SB_KEY = "sb_publishable_lErJ2rvkQkXLuCebY7485Q_iIQvdrog";
 
         async function querySupabase(method, body = null, params = "") {
@@ -125,15 +126,39 @@
                 const data = await querySupabase('GET', null, `?fecha=eq.${f}&lotto=eq.${l}&order=hora.asc`);
                 cont.innerHTML = "";
                 if (data.length > 0) {
-                    data.forEach(d => { cont.innerHTML += `<div class="hist-card"><small>${d.hora}</small><br><b>${d.numero}</b><br><small>${d.animal}</small></div>`; });
+                    data.forEach(d => {
+                        cont.innerHTML += `<div class="hist-card"><small>${d.hora}</small><br><b>${d.numero}</b><br><small>${d.animal}</small></div>`;
+                    });
                 } else { cont.innerHTML = "<p style='grid-column:1/-1; opacity:0.4;'>SIN DATOS</p>"; }
             } catch (e) { cont.innerHTML = "ERROR"; }
         }
 
-        document.getElementById('firma-admin').addEventListener('click', () => { clickCount++; if(clickCount >= 3) { document.getElementById('modal-admin').style.display = 'flex'; clickCount = 0; ajustarHorasAdmin(); } });
-        function ajustarHorasAdmin() { const l = document.getElementById('p-lotto').value; const hSel = document.getElementById('p-hora'); hSel.innerHTML = ""; const lista = (l === "Lotto Rey") ? HORAS_REY : HORAS_NORMAL; lista.forEach(h => hSel.innerHTML += `<option value="${h}">${h}</option>`); }
+        document.getElementById('firma-admin').addEventListener('click', () => {
+            clickCount++;
+            if(clickCount >= 3) {
+                document.getElementById('modal-admin').style.display = 'flex';
+                clickCount = 0;
+                ajustarHorasAdmin();
+            }
+        });
+
+        function ajustarHorasAdmin() {
+            const l = document.getElementById('p-lotto').value;
+            const hSel = document.getElementById('p-hora');
+            hSel.innerHTML = "";
+            const lista = (l === "Lotto Rey") ? HORAS_REY : HORAS_NORMAL;
+            lista.forEach(h => hSel.innerHTML += `<option value="${h}">${h}</option>`);
+        }
+
         function mostrarPreview(val) { document.getElementById('p-animal-name').innerText = ANIMALES[val] || "---"; }
-        function validar() { if(document.getElementById('pass').value === "45Bc*.Ks*9") { document.getElementById('login-sec').style.display = 'none'; document.getElementById('panel-sec').style.display = 'block'; document.getElementById('p-fecha').value = new Date().toLocaleDateString('en-CA'); } else { alert("ERROR"); } }
+
+        function validar() {
+            if(document.getElementById('pass').value === "45Bc*.Ks*9") {
+                document.getElementById('login-sec').style.display = 'none';
+                document.getElementById('panel-sec').style.display = 'block';
+                document.getElementById('p-fecha').value = new Date().toLocaleDateString('en-CA');
+            } else { alert("CONTRASEÑA INCORRECTA"); }
+        }
 
         async function publicar() {
             const f = document.getElementById('p-fecha').value;
@@ -145,7 +170,16 @@
                 await querySupabase('POST', { fecha: f, lotto: l, hora: h, numero: n, animal: ANIMALES[n] || "ANIMAL" });
                 alert("GUARDADO EXITOSAMENTE");
                 actualizarTablero();
-            } catch (e) { alert("ERROR"); }
+            } catch (e) { alert("ERROR AL GUARDAR"); }
+        }
+
+        async function borrar() {
+            const f = document.getElementById('p-fecha').value;
+            const l = document.getElementById('p-lotto').value;
+            if(confirm("¿BORRAR TODO EL DÍA?")) {
+                await querySupabase('DELETE', null, `?fecha=eq.${f}&lotto=eq.${l}`);
+                actualizarTablero();
+            }
         }
 
         async function actualizarTablero() {
@@ -164,7 +198,13 @@
             } catch (e) { console.log("Refrescando..."); }
         }
 
-        function cerrarModales() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); document.getElementById('pass').value = ""; document.getElementById('login-sec').style.display = 'block'; document.getElementById('panel-sec').style.display = 'none'; }
+        function cerrarModales() {
+            document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
+            document.getElementById('pass').value = "";
+            document.getElementById('login-sec').style.display = 'block';
+            document.getElementById('panel-sec').style.display = 'none';
+        }
+
         window.onload = () => { actualizarTablero(); setInterval(actualizarTablero, 30000); };
     </script>
 </body>
