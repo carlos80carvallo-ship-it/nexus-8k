@@ -19,12 +19,9 @@
         .anim-val { font-size: 0.85rem; color: var(--neon-blue); font-weight: bold; text-transform: uppercase; text-align: right; display: block; }
         .action-btn { width: 92%; max-width: 450px; background: linear-gradient(90deg, #1e293b, #0f172a); border: 1px solid var(--neon-blue); padding: 18px; border-radius: 20px; color: var(--neon-blue); font-weight: 900; font-family: 'Orbitron'; margin-top: 15px; cursor: pointer; outline: none; }
         .whatsapp-share { width: 92%; max-width: 450px; background: var(--whatsapp); color: #fff; border: none; padding: 16px; border-radius: 20px; font-weight: 900; font-family: 'Orbitron'; margin-top: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); transition: 0.3s; }
-        
-        /* SECCIÓN INFORMATIVA */
         .disclaimer-box { width: 88%; max-width: 400px; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 15px; border: 1px solid #1e293b; margin-top: 25px; text-align: center; }
         .disclaimer-title { color: #94a3b8; font-size: 0.7rem; font-weight: 900; font-family: 'Orbitron'; margin-bottom: 5px; display: block; }
         .disclaimer-text { color: #64748b; font-size: 0.75rem; line-height: 1.4; }
-
         .firma { color: var(--neon-blue); font-size: 0.75rem; letter-spacing: 4px; font-weight: 900; margin-top: 15px; padding-bottom: 40px; cursor: pointer; font-family: 'Orbitron'; opacity: 0.7; user-select: none; }
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 9999; backdrop-filter: blur(25px); justify-content: center; align-items: center; }
         .modal-content { width: 92%; max-width: 400px; background: #0b1120; border-radius: 30px; padding: 25px; border: 1px solid var(--neon-blue); text-align: center; max-height: 90vh; overflow-y: auto; }
@@ -97,22 +94,21 @@
         async function querySupabase(method, body = null, params = "") {
             const options = {
                 method: method,
-                headers: { 
-                    "apikey": SB_KEY, 
-                    "Authorization": `Bearer ${SB_KEY}`, 
-                    "Content-Type": "application/json", 
-                    "Prefer": "return=minimal" 
-                }
+                headers: { "apikey": SB_KEY, "Authorization": `Bearer ${SB_KEY}`, "Content-Type": "application/json", "Prefer": "return=minimal" }
             };
             if (body) options.body = JSON.stringify(body);
             const response = await fetch(`${SB_URL}${params}`, options);
-            // Si devuelve 201 o 204 es éxito aunque no devuelva datos
             if (response.status === 201 || response.status === 204) return [];
             if (!response.ok) throw new Error("Error DB");
             return await response.json();
         }
 
-        const ANIMALES = {"0":"DELFÍN","00":"BALLENA","1":"CARNERO","01":"CARNERO","2":"TORO","02":"TORO","3":"CIEMPIÉS","03":"CIEMPIÉS","4":"ALACRÁN","04":"ALACRÁN","5":"LEÓN","05":"LEÓN","6":"RANA","06":"RANA","7":"PERICO","07":"PERICO","8":"RATÓN","08":"RATÓN","9":"ÁGUILA","09":"ÁGUILA","10":"TIGRE","11":"GATO","12":"CABALLO","13":"MONO","14":"PALOMA","15":"ZORRO","16":"OSO","17":"PAVO","18":"BURRO","19":"CHIVO","20":"COCHINO","21":"GALLO","22":"CAMELLO","23":"CEBRA","24":"IGUANA","25":"GALLINA","26":"VACA","27":"PERRO","28":"ZAMURO","29":"ELEFANTE","30":"CAIMÁN","31":"LAPA","32":"ARDILLA","33":"PESCADO","34":"VENADO","35":"JIRAFA","36":"CULEBRA"};
+        // LISTA DEFINITIVA GUÁCHARO ACTIVO (0 AL 75)
+        const ANIMALES = {
+            "0":"DELFÍN","00":"BALLENA","1":"CARNERO","01":"CARNERO","2":"TORO","02":"TORO","3":"CIEMPIÉS","03":"CIEMPIÉS","4":"ALACRÁN","04":"ALACRÁN","5":"LEÓN","05":"LEÓN","6":"RANA","06":"RANA","7":"PERICO","07":"PERICO","8":"RATÓN","08":"RATÓN","9":"ÁGUILA","09":"ÁGUILA","10":"TIGRE","11":"GATO","12":"CABALLO","13":"MONO","14":"PALOMA","15":"ZORRO","16":"OSO","17":"PAVO","18":"BURRO","19":"CHIVO","20":"COCHINO","21":"GALLO","22":"CAMELLO","23":"CEBRA","24":"IGUANA","25":"GALLINA","26":"VACA","27":"PERRO","28":"ZAMURO","29":"ELEFANTE","30":"CAIMÁN","31":"LAPA","32":"ARDILLA","33":"PESCADO","34":"VENADO","35":"JIRAFA","36":"CULEBRA",
+            "37":"TORTUGA","38":"BÚFALO","39":"LECHUZA","40":"AVISPA","41":"CANGURO","42":"TUCÁN","43":"MARIPOSA","44":"CHIGÜIRE","45":"GARZA","46":"PUMA","47":"PAVO REAL","48":"PUERCOESPÍN","49":"PEREZA","50":"CANARIO","51":"PELÍCANO","52":"PULPO","53":"CARACOL","54":"GRILLO","55":"OSO HORMIGUERO","56":"TIBURÓN","57":"PATO","58":"HORMIGA","59":"PANTERA","60":"CAMALEÓN","61":"PANDA","62":"CACHICAMO","63":"CANGREJO","64":"GAVILÁN","65":"ARAÑA","66":"LOBO","67":"AVESTRUZ","68":"JAGUAR","69":"CONEJO","70":"BISONTE","71":"GUACAMAYA","72":"GORILA","73":"HIPOPÓTAMO","74":"TURPIAL","75":"GUÁCHARO"
+        };
+
         const HORAS_NORMAL = ["08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM"];
         const HORAS_REY = ["08:30 AM", "09:30 AM", "10:30 AM", "11:30 AM", "12:30 PM", "01:30 PM", "02:30 PM", "03:30 PM", "04:30 PM", "05:30 PM", "06:30 PM", "07:30 PM"];
 
@@ -137,24 +133,9 @@
 
         let clickCount = 0;
         document.getElementById('firma-admin').addEventListener('click', () => { clickCount++; if(clickCount >= 3) { document.getElementById('modal-admin').style.display = 'flex'; clickCount = 0; ajustarHorasAdmin(); } });
-        
-        function ajustarHorasAdmin() { 
-            const l = document.getElementById('p-lotto').value; 
-            const hSel = document.getElementById('p-hora'); 
-            hSel.innerHTML = ""; 
-            const lista = (l === "Lotto Rey") ? HORAS_REY : HORAS_NORMAL; 
-            lista.forEach(h => hSel.innerHTML += `<option value="${h}">${h}</option>`); 
-        }
-
+        function ajustarHorasAdmin() { const l = document.getElementById('p-lotto').value; const hSel = document.getElementById('p-hora'); hSel.innerHTML = ""; const lista = (l === "Lotto Rey") ? HORAS_REY : HORAS_NORMAL; lista.forEach(h => hSel.innerHTML += `<option value="${h}">${h}</option>`); }
         function mostrarPreview(val) { document.getElementById('p-animal-name').innerText = ANIMALES[val] || "---"; }
-
-        function validar() { 
-            if(document.getElementById('pass').value === "45Bc*.Ks*9") { 
-                document.getElementById('login-sec').style.display = 'none'; 
-                document.getElementById('panel-sec').style.display = 'block'; 
-                document.getElementById('p-fecha').value = new Date().toISOString().split('T')[0];
-            } else { alert("ACCESO DENEGADO"); } 
-        }
+        function validar() { if(document.getElementById('pass').value === "45Bc*.Ks*9") { document.getElementById('login-sec').style.display = 'none'; document.getElementById('panel-sec').style.display = 'block'; document.getElementById('p-fecha').value = new Date().toISOString().split('T')[0]; } else { alert("ERROR"); } }
 
         async function publicar() {
             const f = document.getElementById('p-fecha').value;
@@ -167,7 +148,7 @@
                 alert("✅ PUBLICADO CON ÉXITO");
                 document.getElementById('p-num').value = "";
                 actualizarTablero();
-            } catch(e) { alert("❌ ERROR AL GUARDAR"); }
+            } catch(e) { alert("❌ ERROR"); }
         }
 
         async function borrar() {
@@ -195,13 +176,7 @@
             } catch(e) { console.log("Refrescando..."); }
         }
 
-        function cerrarModales() { 
-            document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); 
-            document.getElementById('pass').value = ""; 
-            document.getElementById('login-sec').style.display = 'block'; 
-            document.getElementById('panel-sec').style.display = 'none'; 
-        }
-
+        function cerrarModales() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); document.getElementById('pass').value = ""; document.getElementById('login-sec').style.display = 'block'; document.getElementById('panel-sec').style.display = 'none'; }
         window.onload = () => { actualizarTablero(); setInterval(actualizarTablero, 20000); };
     </script>
 </body>
