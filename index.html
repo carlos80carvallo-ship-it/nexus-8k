@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NEXUS 8K - ELITE HUB</title>
+    
+    <title>NEXUS ANIMAL 8K - Resultados de Animalitos Hoy</title>
+    <meta name="description" content="Resultados al instante de Lotto Activo, La Granjita, Guácharo Activo y Lotto Rey. La mejor plataforma informativa de animalitos.">
+    <meta name="keywords" content="Lotto Activo, La Granjita, Guácharo Activo, Lotto Rey, Resultados de Animalitos, Caracas, Venezuela, Nexus 8K">
+    <meta name="author" content="Carlos Carvallo">
+
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
         :root { --neon-blue: #00f3ff; --neon-pink: #ff00c1; --glass: rgba(255, 255, 255, 0.08); --whatsapp: #25D366; }
@@ -17,7 +22,7 @@
         .digital-clock { font-family: 'Orbitron', sans-serif; font-size: 2.2rem; color: var(--neon-blue); margin: 15px 0; text-shadow: 0 0 15px rgba(0, 243, 255, 0.5); }
         
         .main-grid { width: 92%; max-width: 450px; display: flex; flex-direction: column; gap: 10px; }
-        .lotto-card { background: var(--glass); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); padding: 18px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid var(--neon-blue); position: relative; overflow: hidden; }
+        .lotto-card { background: var(--glass); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); padding: 18px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid var(--neon-blue); }
         .num-val { font-family: 'Orbitron'; font-size: 1.8rem; display: block; text-align: right; }
         .anim-val { font-size: 0.8rem; color: var(--neon-blue); font-weight: bold; text-align: right; display: block; text-transform: uppercase; }
         
@@ -26,7 +31,6 @@
 
         .info-app { width: 90%; font-size: 0.7rem; color: #64748b; text-align: center; margin-top: 20px; line-height: 1.4; padding: 15px; border-top: 1px solid rgba(255,255,255,0.05); }
 
-        /* Modales */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.96); z-index: 9999; backdrop-filter: blur(20px); justify-content: center; align-items: center; }
         .modal-content { width: 95%; max-width: 450px; background: #0b1120; border-radius: 25px; padding: 20px; border: 1px solid var(--neon-blue); max-height: 85vh; overflow-y: auto; }
         
@@ -71,7 +75,7 @@
     <div class="firma" id="firma-admin">CARLOSC-8K</div>
 
     <div id="modal-historial" class="modal"><div class="modal-content">
-        <h2 style="color:var(--neon-blue); font-family:'Orbitron'; text-align:center; font-size: 1.2rem;">HISTORIAL</h2>
+        <h2 style="color:var(--neon-blue); font-family:'Orbitron'; text-align:center;">HISTORIAL</h2>
         <input type="date" id="h-fecha" onchange="cargarHistorial()">
         <select id="h-lotto" onchange="cargarHistorial()"><option>Lotto Activo</option><option>La Granjita</option><option>Guácharo Activo</option><option>Lotto Rey</option></select>
         <table class="hist-table">
