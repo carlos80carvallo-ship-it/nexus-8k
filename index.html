@@ -69,8 +69,8 @@
 
     <div id="modal-historial" class="modal"><div class="modal-content">
         <h2 style="color:var(--neon-blue); font-family:'Orbitron';">HISTORIAL</h2>
-        <input type="date" id="h-fecha">
-        <select id="h-lotto"><option>Lotto Activo</option><option>La Granjita</option><option>Guácharo Activo</option><option>Lotto Rey</option></select>
+        <input type="date" id="h-fecha" onchange="cargarHistorial()">
+        <select id="h-lotto" onchange="cargarHistorial()"><option>Lotto Activo</option><option>La Granjita</option><option>Guácharo Activo</option><option>Lotto Rey</option></select>
         <div id="hist-lista" class="hist-lista"></div>
         <button class="btn-panel" style="background:var(--neon-blue); color:black; margin-top:20px;" onclick="cerrarModales()">CERRAR</button>
     </div></div>
@@ -91,6 +91,8 @@
         const SB_URL = "https://hzvbfpmjxhqhpruhpimy.supabase.co/rest/v1/resultados";
         const SB_KEY = "sb_publishable_lErJ2rvkQkXLuCebY7485Q_iIQvdrog";
 
+        const HORAS_REF = ["08:00 AM", "08:30 AM", "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM", "01:00 PM", "01:30 PM", "02:00 PM", "02:30 PM", "03:00 PM", "03:30 PM", "04:00 PM", "04:30 PM", "05:00 PM", "05:30 PM", "06:00 PM", "06:30 PM", "07:00 PM", "07:30 PM"];
+
         async function querySupabase(method, body = null, params = "") {
             const options = {
                 method: method,
@@ -99,22 +101,17 @@
             if (body) options.body = JSON.stringify(body);
             const response = await fetch(`${SB_URL}${params}`, options);
             if (response.status === 201 || response.status === 204) return [];
-            if (!response.ok) throw new Error("Error DB");
             return await response.json();
         }
 
-        // LISTA DEFINITIVA GUÁCHARO ACTIVO (0 AL 75)
-        const ANIMALES = {
-            "0":"DELFÍN","00":"BALLENA","1":"CARNERO","01":"CARNERO","2":"TORO","02":"TORO","3":"CIEMPIÉS","03":"CIEMPIÉS","4":"ALACRÁN","04":"ALACRÁN","5":"LEÓN","05":"LEÓN","6":"RANA","06":"RANA","7":"PERICO","07":"PERICO","8":"RATÓN","08":"RATÓN","9":"ÁGUILA","09":"ÁGUILA","10":"TIGRE","11":"GATO","12":"CABALLO","13":"MONO","14":"PALOMA","15":"ZORRO","16":"OSO","17":"PAVO","18":"BURRO","19":"CHIVO","20":"COCHINO","21":"GALLO","22":"CAMELLO","23":"CEBRA","24":"IGUANA","25":"GALLINA","26":"VACA","27":"PERRO","28":"ZAMURO","29":"ELEFANTE","30":"CAIMÁN","31":"LAPA","32":"ARDILLA","33":"PESCADO","34":"VENADO","35":"JIRAFA","36":"CULEBRA",
-            "37":"TORTUGA","38":"BÚFALO","39":"LECHUZA","40":"AVISPA","41":"CANGURO","42":"TUCÁN","43":"MARIPOSA","44":"CHIGÜIRE","45":"GARZA","46":"PUMA","47":"PAVO REAL","48":"PUERCOESPÍN","49":"PEREZA","50":"CANARIO","51":"PELÍCANO","52":"PULPO","53":"CARACOL","54":"GRILLO","55":"OSO HORMIGUERO","56":"TIBURÓN","57":"PATO","58":"HORMIGA","59":"PANTERA","60":"CAMALEÓN","61":"PANDA","62":"CACHICAMO","63":"CANGREJO","64":"GAVILÁN","65":"ARAÑA","66":"LOBO","67":"AVESTRUZ","68":"JAGUAR","69":"CONEJO","70":"BISONTE","71":"GUACAMAYA","72":"GORILA","73":"HIPOPÓTAMO","74":"TURPIAL","75":"GUÁCHARO"
-        };
+        const ANIMALES = {"0":"DELFÍN","00":"BALLENA","1":"CARNERO","01":"CARNERO","2":"TORO","02":"TORO","3":"CIEMPIÉS","03":"CIEMPIÉS","4":"ALACRÁN","04":"ALACRÁN","5":"LEÓN","05":"LEÓN","6":"RANA","06":"RANA","7":"PERICO","07":"PERICO","8":"RATÓN","08":"RATÓN","9":"ÁGUILA","09":"ÁGUILA","10":"TIGRE","11":"GATO","12":"CABALLO","13":"MONO","14":"PALOMA","15":"ZORRO","16":"OSO","17":"PAVO","18":"BURRO","19":"CHIVO","20":"COCHINO","21":"GALLO","22":"CAMELLO","23":"CEBRA","24":"IGUANA","25":"GALLINA","26":"VACA","27":"PERRO","28":"ZAMURO","29":"ELEFANTE","30":"CAIMÁN","31":"LAPA","32":"ARDILLA","33":"PESCADO","34":"VENADO","35":"JIRAFA","36":"CULEBRA","37":"TORTUGA","38":"BÚFALO","39":"LECHUZA","40":"AVISPA","41":"CANGURO","42":"TUCÁN","43":"MARIPOSA","44":"CHIGÜIRE","45":"GARZA","46":"PUMA","47":"PAVO REAL","48":"PUERCOESPÍN","49":"PEREZA","50":"CANARIO","51":"PELÍCANO","52":"PULPO","53":"CARACOL","54":"GRILLO","55":"OSO HORMIGUERO","56":"TIBURÓN","57":"PATO","58":"HORMIGA","59":"PANTERA","60":"CAMALEÓN","61":"PANDA","62":"CACHICAMO","63":"CANGREJO","64":"GAVILÁN","65":"ARAÑA","66":"LOBO","67":"AVESTRUZ","68":"JAGUAR","69":"CONEJO","70":"BISONTE","71":"GUACAMAYA","72":"GORILA","73":"HIPOPÓTAMO","74":"TURPIAL","75":"GUÁCHARO"};
 
-        const HORAS_NORMAL = ["08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM"];
-        const HORAS_REY = ["08:30 AM", "09:30 AM", "10:30 AM", "11:30 AM", "12:30 PM", "01:30 PM", "02:30 PM", "03:30 PM", "04:30 PM", "05:30 PM", "06:30 PM", "07:30 PM"];
+        function ordenarPorHora(lista) {
+            return lista.sort((a, b) => HORAS_REF.indexOf(a.hora) - HORAS_REF.indexOf(b.hora));
+        }
 
         setInterval(() => { document.getElementById('reloj').innerText = new Date().toLocaleTimeString('es-VE', { hour12: false }); }, 1000);
 
-        function compartirApp() { window.open(`https://wa.me/?text=${encodeURIComponent("🚀 *NEXUS ANIMAL 8K*\nResultados en vivo: " + window.location.href)}`, '_blank'); }
         function abrirDirecto(l) { document.getElementById('h-lotto').value = l; abrirHistorial(); }
         function abrirHistorial() { document.getElementById('modal-historial').style.display = 'flex'; document.getElementById('h-fecha').value = new Date().toISOString().split('T')[0]; cargarHistorial(); }
 
@@ -124,40 +121,12 @@
             const cont = document.getElementById('hist-lista');
             cont.innerHTML = "Cargando...";
             try {
-                const data = await querySupabase('GET', null, `?fecha=eq.${f}&Lotto=eq.${l}&order=hora.asc`);
+                let data = await querySupabase('GET', null, `?fecha=eq.${f}&Lotto=eq.${l}`);
+                data = ordenarPorHora(data);
                 cont.innerHTML = "";
                 data.forEach(d => { cont.innerHTML += `<div class="hist-card"><small>${d.hora}</small><br><b>${d.numero}</b><br><small>${d.animal}</small></div>`; });
                 if(data.length === 0) cont.innerHTML = "SIN DATOS";
             } catch(e) { cont.innerHTML = "ERROR"; }
-        }
-
-        let clickCount = 0;
-        document.getElementById('firma-admin').addEventListener('click', () => { clickCount++; if(clickCount >= 3) { document.getElementById('modal-admin').style.display = 'flex'; clickCount = 0; ajustarHorasAdmin(); } });
-        function ajustarHorasAdmin() { const l = document.getElementById('p-lotto').value; const hSel = document.getElementById('p-hora'); hSel.innerHTML = ""; const lista = (l === "Lotto Rey") ? HORAS_REY : HORAS_NORMAL; lista.forEach(h => hSel.innerHTML += `<option value="${h}">${h}</option>`); }
-        function mostrarPreview(val) { document.getElementById('p-animal-name').innerText = ANIMALES[val] || "---"; }
-        function validar() { if(document.getElementById('pass').value === "45Bc*.Ks*9") { document.getElementById('login-sec').style.display = 'none'; document.getElementById('panel-sec').style.display = 'block'; document.getElementById('p-fecha').value = new Date().toISOString().split('T')[0]; } else { alert("ERROR"); } }
-
-        async function publicar() {
-            const f = document.getElementById('p-fecha').value;
-            const l = document.getElementById('p-lotto').value;
-            const h = document.getElementById('p-hora').value;
-            const n = document.getElementById('p-num').value.trim();
-            if(!f || n==="") return;
-            try {
-                await querySupabase('POST', { fecha: f, Lotto: l, hora: h, numero: n, animal: ANIMALES[n] || "ANIMAL" });
-                alert("✅ PUBLICADO CON ÉXITO");
-                document.getElementById('p-num').value = "";
-                actualizarTablero();
-            } catch(e) { alert("❌ ERROR"); }
-        }
-
-        async function borrar() {
-            const f = document.getElementById('p-fecha').value;
-            const l = document.getElementById('p-lotto').value;
-            if(confirm("¿BORRAR TODO EL DÍA?")) {
-                await querySupabase('DELETE', null, `?fecha=eq.${f}&Lotto=eq.${l}`);
-                actualizarTablero();
-            }
         }
 
         async function actualizarTablero() {
@@ -166,8 +135,9 @@
                 const data = await querySupabase('GET', null, `?fecha=eq.${hoy}`);
                 ["Lotto Activo", "La Granjita", "Guácharo Activo", "Lotto Rey"].forEach(l => {
                     const id = l.replace(/ /g, "-");
-                    const filtrado = data.filter(d => d.Lotto === l);
+                    let filtrado = data.filter(d => d.Lotto === l);
                     if(filtrado.length > 0) {
+                        filtrado = ordenarPorHora(filtrado);
                         const ultimo = filtrado[filtrado.length - 1];
                         document.getElementById('v-'+id).innerText = ultimo.numero;
                         document.getElementById('a-'+id).innerText = ultimo.animal;
@@ -176,8 +146,28 @@
             } catch(e) { console.log("Refrescando..."); }
         }
 
+        // --- Resto de funciones administrativas sin cambios para seguridad ---
+        let clickCount = 0;
+        document.getElementById('firma-admin').addEventListener('click', () => { clickCount++; if(clickCount >= 3) { document.getElementById('modal-admin').style.display = 'flex'; clickCount = 0; ajustarHorasAdmin(); } });
+        function ajustarHorasAdmin() { 
+            const l = document.getElementById('p-lotto').value; 
+            const hSel = document.getElementById('p-hora'); 
+            hSel.innerHTML = ""; 
+            const lista = (l === "Lotto Rey") ? ["08:30 AM", "09:30 AM", "10:30 AM", "11:30 AM", "12:30 PM", "01:30 PM", "02:30 PM", "03:30 PM", "04:30 PM", "05:30 PM", "06:30 PM", "07:30 PM"] : ["08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM"]; 
+            lista.forEach(h => hSel.innerHTML += `<option value="${h}">${h}</option>`); 
+        }
+        function mostrarPreview(val) { document.getElementById('p-animal-name').innerText = ANIMALES[val] || "---"; }
+        function validar() { if(document.getElementById('pass').value === "45Bc*.Ks*9") { document.getElementById('login-sec').style.display = 'none'; document.getElementById('panel-sec').style.display = 'block'; document.getElementById('p-fecha').value = new Date().toISOString().split('T')[0]; } else { alert("ERROR"); } }
+        async function publicar() {
+            const f = document.getElementById('p-fecha').value; const l = document.getElementById('p-lotto').value; const h = document.getElementById('p-hora').value; const n = document.getElementById('p-num').value.trim();
+            if(!f || n==="") return;
+            try { await querySupabase('POST', { fecha: f, Lotto: l, hora: h, numero: n, animal: ANIMALES[n] || "ANIMAL" }); alert("✅ PUBLICADO CON ÉXITO"); document.getElementById('p-num').value = ""; actualizarTablero(); } catch(e) { alert("❌ ERROR"); }
+        }
+        async function borrar() { const f = document.getElementById('p-fecha').value; const l = document.getElementById('p-lotto').value; if(confirm("¿BORRAR TODO EL DÍA?")) { await querySupabase('DELETE', null, `?fecha=eq.${f}&Lotto=eq.${l}`); actualizarTablero(); } }
         function cerrarModales() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); document.getElementById('pass').value = ""; document.getElementById('login-sec').style.display = 'block'; document.getElementById('panel-sec').style.display = 'none'; }
+        function compartirApp() { window.open(`https://wa.me/?text=${encodeURIComponent("🚀 *NEXUS ANIMAL 8K*\nResultados en vivo: " + window.location.href)}`, '_blank'); }
         window.onload = () => { actualizarTablero(); setInterval(actualizarTablero, 20000); };
     </script>
 </body>
-</html>
+    </html>
+    
