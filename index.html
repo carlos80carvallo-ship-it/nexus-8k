@@ -23,8 +23,9 @@
         
         .main-grid { width: 92%; max-width: 450px; display: flex; flex-direction: column; gap: 10px; }
         .lotto-card { background: var(--glass); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); padding: 18px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid var(--neon-blue); }
-        .num-val { font-family: 'Orbitron'; font-size: 1.8rem; display: block; text-align: right; }
-        .anim-val { font-size: 0.8rem; color: var(--neon-blue); font-weight: bold; text-align: right; display: block; text-transform: uppercase; }
+        .time-label { font-size: 0.65rem; color: #64748b; font-family: 'Orbitron'; display: block; margin-bottom: 2px; }
+        .num-val { font-family: 'Orbitron'; font-size: 1.8rem; display: block; text-align: right; line-height: 1; }
+        .anim-val { font-size: 0.8rem; color: var(--neon-blue); font-weight: bold; text-align: right; display: block; text-transform: uppercase; margin-top: 4px; }
         
         .action-btn { width: 92%; max-width: 450px; background: rgba(0, 243, 255, 0.1); border: 1px solid var(--neon-blue); padding: 15px; border-radius: 15px; color: var(--neon-blue); font-weight: 900; font-family: 'Orbitron'; margin-top: 15px; cursor: pointer; transition: 0.3s; }
         .action-btn:active { transform: scale(0.98); background: var(--neon-blue); color: #000; }
@@ -51,19 +52,35 @@
     <div class="main-grid">
         <div class="lotto-card" style="border-left-color: #6366f1;">
             <div>Lotto Activo</div>
-            <div><span class="num-val" id="v-Lotto-Activo">--</span><span class="anim-val" id="a-Lotto-Activo">ESPERANDO</span></div>
+            <div>
+                <span class="time-label" id="t-Lotto-Activo">--:-- --</span>
+                <span class="num-val" id="v-Lotto-Activo">--</span>
+                <span class="anim-val" id="a-Lotto-Activo">ESPERANDO</span>
+            </div>
         </div>
         <div class="lotto-card" style="border-left-color: #00ff88;">
             <div>La Granjita</div>
-            <div><span class="num-val" id="v-La-Granjita">--</span><span class="anim-val" id="a-La-Granjita">ESPERANDO</span></div>
+            <div>
+                <span class="time-label" id="t-La-Granjita">--:-- --</span>
+                <span class="num-val" id="v-La-Granjita">--</span>
+                <span class="anim-val" id="a-La-Granjita">ESPERANDO</span>
+            </div>
         </div>
         <div class="lotto-card" style="border-left-color: var(--neon-pink);">
             <div>Guácharo Activo</div>
-            <div><span class="num-val" id="v-Guácharo-Activo">--</span><span class="anim-val" id="a-Guácharo-Activo">ESPERANDO</span></div>
+            <div>
+                <span class="time-label" id="t-Guácharo-Activo">--:-- --</span>
+                <span class="num-val" id="v-Guácharo-Activo">--</span>
+                <span class="anim-val" id="a-Guácharo-Activo">ESPERANDO</span>
+            </div>
         </div>
         <div class="lotto-card" style="border-left-color: #f59e0b;">
             <div>Lotto Rey</div>
-            <div><span class="num-val" id="v-Lotto-Rey">--</span><span class="anim-val" id="a-Lotto-Rey">ESPERANDO</span></div>
+            <div>
+                <span class="time-label" id="t-Lotto-Rey">--:-- --</span>
+                <span class="num-val" id="v-Lotto-Rey">--</span>
+                <span class="anim-val" id="a-Lotto-Rey">ESPERANDO</span>
+            </div>
         </div>
     </div>
 
@@ -153,9 +170,11 @@
                 if(filtrado.length > 0) {
                     filtrado.sort((a, b) => HORAS_REF.indexOf(a.hora) - HORAS_REF.indexOf(b.hora));
                     const u = filtrado[filtrado.length - 1];
+                    document.getElementById('t-'+id).innerText = u.hora;
                     document.getElementById('v-'+id).innerText = u.numero;
                     document.getElementById('a-'+id).innerText = u.animal;
                 } else {
+                    document.getElementById('t-'+id).innerText = "--:-- --";
                     document.getElementById('v-'+id).innerText = "--";
                     document.getElementById('a-'+id).innerText = "ESPERANDO";
                 }
