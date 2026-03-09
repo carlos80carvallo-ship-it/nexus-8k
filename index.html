@@ -6,37 +6,36 @@
     <title>NEXUS 8K - ELITE HUB</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        :root { --neon-blue: #00f3ff; --neon-pink: #ff00c1; --glass: rgba(255, 255, 255, 0.08); --whatsapp: #25D366; }
+        :root { --neon-blue: #00f3ff; --neon-pink: #ff00c1; --glass: rgba(255, 255, 255, 0.08); }
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { background: radial-gradient(circle at center, #0f172a 0%, #020617 100%); color: #fff; font-family: 'Rajdhani', sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
+        body { background: radial-gradient(circle at center, #0f172a 0%, #020617 100%); color: #fff; font-family: 'Rajdhani', sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
         
-        /* Cabecera */
-        .en-vivo { color: #ff4d4d; font-weight: bold; font-size: 0.9rem; margin-top: 20px; letter-spacing: 3px; animation: blink 1.2s infinite; font-family: 'Orbitron'; }
-        @keyframes blink { 0%, 100% { opacity: 1; text-shadow: 0 0 10px #ff4d4d; } 50% { opacity: 0.2; } }
-        .logo-container h1 { font-family: 'Orbitron', sans-serif; font-size: 3rem; font-weight: 900; background: linear-gradient(to bottom, #fff 20%, var(--neon-blue) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; line-height: 0.9; margin-top: 10px; }
-        .digital-clock { font-family: 'Orbitron', sans-serif; font-size: 2.2rem; color: var(--neon-blue); text-align: center; margin: 10px 0; text-shadow: 0 0 15px rgba(0, 243, 255, 0.5); min-height: 2.5rem; }
+        .en-vivo { color: #ff4d4d; font-weight: bold; font-size: 0.8rem; margin-top: 20px; letter-spacing: 3px; animation: blink 1.2s infinite; font-family: 'Orbitron'; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         
-        /* Grid Principal */
-        .main-grid { width: 92%; max-width: 450px; display: flex; flex-direction: column; gap: 12px; margin-top: 5px; }
-        .lotto-card { background: var(--glass); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); padding: 20px; border-radius: 22px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid var(--neon-blue); cursor: pointer; transition: 0.3s; }
-        .num-val { font-family: 'Orbitron'; font-size: 1.8rem; color: #fff; display: block; text-align: right; }
-        .anim-val { font-size: 0.85rem; color: var(--neon-blue); font-weight: bold; text-transform: uppercase; text-align: right; display: block; }
+        .logo-container h1 { font-family: 'Orbitron', sans-serif; font-size: 2.8rem; font-weight: 900; background: linear-gradient(to bottom, #fff 20%, var(--neon-blue) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; margin-top: 5px; line-height: 1; }
+        .digital-clock { font-family: 'Orbitron', sans-serif; font-size: 2.2rem; color: var(--neon-blue); margin: 15px 0; text-shadow: 0 0 15px rgba(0, 243, 255, 0.5); }
         
-        /* Botones */
-        .action-btn { width: 92%; max-width: 450px; background: linear-gradient(90deg, #1e293b, #0f172a); border: 1px solid var(--neon-blue); padding: 18px; border-radius: 20px; color: var(--neon-blue); font-weight: 900; font-family: 'Orbitron'; margin-top: 15px; cursor: pointer; }
+        .main-grid { width: 92%; max-width: 450px; display: flex; flex-direction: column; gap: 10px; }
+        .lotto-card { background: var(--glass); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); padding: 18px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid var(--neon-blue); }
+        .num-val { font-family: 'Orbitron'; font-size: 1.8rem; display: block; text-align: right; }
+        .anim-val { font-size: 0.8rem; color: var(--neon-blue); font-weight: bold; text-align: right; display: block; text-transform: uppercase; }
         
-        /* Modales e Historial Estilo Almanaque */
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 9999; backdrop-filter: blur(25px); justify-content: center; align-items: center; }
-        .modal-content { width: 95%; max-width: 500px; background: #0b1120; border-radius: 30px; padding: 20px; border: 1px solid var(--neon-blue); max-height: 90vh; overflow-y: auto; }
-        
-        .hist-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-family: 'Orbitron', sans-serif; }
-        .hist-table th { color: var(--neon-blue); border-bottom: 2px solid var(--neon-blue); padding: 10px; font-size: 0.8rem; }
-        .hist-table td { padding: 12px 5px; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center; }
-        .hist-num { font-size: 1.4rem; color: #fff; font-weight: 900; }
-        .hist-anim { font-size: 0.7rem; color: var(--neon-pink); display: block; }
+        .action-btn { width: 92%; max-width: 450px; background: rgba(0, 243, 255, 0.1); border: 1px solid var(--neon-blue); padding: 15px; border-radius: 15px; color: var(--neon-blue); font-weight: 900; font-family: 'Orbitron'; margin-top: 15px; cursor: pointer; transition: 0.3s; }
+        .action-btn:active { background: var(--neon-blue); color: #000; }
 
-        input, select { width: 100%; padding: 12px; margin: 5px 0; border-radius: 12px; background: rgba(255,255,255,0.05); border: 1px solid #334155; color: white; font-family: 'Rajdhani'; }
-        .firma { color: var(--neon-blue); font-size: 0.75rem; letter-spacing: 4px; font-weight: 900; margin-top: 20px; padding-bottom: 40px; cursor: pointer; opacity: 0.6; }
+        .info-app { width: 90%; font-size: 0.7rem; color: #64748b; text-align: center; margin-top: 20px; line-height: 1.4; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; }
+
+        /* Modales */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 9999; backdrop-filter: blur(20px); justify-content: center; align-items: center; }
+        .modal-content { width: 95%; max-width: 450px; background: #0b1120; border-radius: 25px; padding: 20px; border: 1px solid var(--neon-blue); max-height: 85vh; overflow-y: auto; }
+        
+        .hist-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .hist-table td { padding: 12px 5px; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: center; }
+        .btn-del { background: #ef4444; border: none; color: white; padding: 5px 10px; border-radius: 5px; font-size: 0.7rem; cursor: pointer; }
+
+        input, select { width: 100%; padding: 12px; margin: 5px 0; border-radius: 10px; background: rgba(255,255,255,0.05); border: 1px solid #334155; color: white; }
+        .firma { color: var(--neon-blue); font-size: 0.7rem; letter-spacing: 3px; margin: 20px 0; cursor: pointer; opacity: 0.5; }
     </style>
 </head>
 <body>
@@ -46,52 +45,53 @@
     <div id="reloj" class="digital-clock">00:00:00</div>
 
     <div class="main-grid">
-        <div class="lotto-card" style="border-left-color: #6366f1;" onclick="abrirDirecto('Lotto Activo')">
+        <div class="lotto-card" style="border-left-color: #6366f1;">
             <div>Lotto Activo</div>
             <div><span class="num-val" id="v-Lotto-Activo">--</span><span class="anim-val" id="a-Lotto-Activo">ESPERANDO</span></div>
         </div>
-        <div class="lotto-card" style="border-left-color: #00ff88;" onclick="abrirDirecto('La Granjita')">
+        <div class="lotto-card" style="border-left-color: #00ff88;">
             <div>La Granjita</div>
             <div><span class="num-val" id="v-La-Granjita">--</span><span class="anim-val" id="a-La-Granjita">ESPERANDO</span></div>
         </div>
-        <div class="lotto-card" style="border-left-color: var(--neon-pink);" onclick="abrirDirecto('Guácharo Activo')">
+        <div class="lotto-card" style="border-left-color: var(--neon-pink);">
             <div>Guácharo Activo</div>
             <div><span class="num-val" id="v-Guácharo-Activo">--</span><span class="anim-val" id="a-Guácharo-Activo">ESPERANDO</span></div>
         </div>
-        <div class="lotto-card" style="border-left-color: #f59e0b;" onclick="abrirDirecto('Lotto Rey')">
+        <div class="lotto-card" style="border-left-color: #f59e0b;">
             <div>Lotto Rey</div>
             <div><span class="num-val" id="v-Lotto-Rey">--</span><span class="anim-val" id="a-Lotto-Rey">ESPERANDO</span></div>
         </div>
     </div>
 
     <button class="action-btn" onclick="abrirHistorial()">📜 CONSULTAR HISTORIAL</button>
+    <button class="action-btn" style="border-color:#25D366; color:#25D366;" onclick="compartir()">📲 COMPARTIR APP</button>
 
+    <div class="info-app">Nexus Animal es una plataforma de carácter informativo. No realizamos apuestas ni pagos. Los resultados son propiedad de sus respectivas operadoras.</div>
     <div class="firma" id="firma-admin">CARLOSC-8K</div>
 
     <div id="modal-historial" class="modal"><div class="modal-content">
         <h2 style="color:var(--neon-blue); font-family:'Orbitron'; text-align:center;">HISTORIAL</h2>
         <input type="date" id="h-fecha" onchange="cargarHistorial()">
         <select id="h-lotto" onchange="cargarHistorial()"><option>Lotto Activo</option><option>La Granjita</option><option>Guácharo Activo</option><option>Lotto Rey</option></select>
-        
         <table class="hist-table">
-            <thead><tr><th>HORA</th><th>RESULTADO</th></tr></thead>
             <tbody id="hist-lista"></tbody>
         </table>
-        
-        <button class="action-btn" style="width:100%; border-color:#ef4444; color:#ef4444; margin-top:20px;" onclick="cerrarModales()">CERRAR</button>
+        <button class="action-btn" style="width:100%; border-color:#ef4444; color:#ef4444;" onclick="cerrarModales()">CERRAR</button>
     </div></div>
 
     <div id="modal-admin" class="modal"><div class="modal-content">
-        <h2 style="color:var(--neon-pink); font-family:'Orbitron'; text-align:center;">MASTER PANEL</h2>
-        <div id="login-sec"><input type="password" id="pass" placeholder="PASSWORD"><button class="action-btn" style="width:100%;" onclick="validar()">ACCEDER</button></div>
+        <h2 style="color:var(--neon-pink); font-family:'Orbitron'; text-align:center;">MASTER CONTROL</h2>
+        <div id="login-sec"><input type="password" id="pass" placeholder="LLAVE MAESTRA"><button class="action-btn" style="width:100%;" onclick="validar()">ENTRAR</button></div>
         <div id="panel-sec" style="display:none;">
             <input type="date" id="p-fecha">
             <select id="p-lotto" onchange="ajustarHorasAdmin()"><option>Lotto Activo</option><option>La Granjita</option><option>Guácharo Activo</option><option>Lotto Rey</option></select>
             <select id="p-hora"></select>
             <input type="text" id="p-num" placeholder="NÚMERO" oninput="mostrarPreview(this.value)">
             <div id="p-animal-name" style="text-align:center; color:var(--neon-pink); font-family:'Orbitron'; margin:10px 0;">---</div>
-            <button class="action-btn" style="width:100%; background:var(--neon-blue); color:black;" onclick="publicar()">GUARDAR</button>
-            <button class="action-btn" style="width:100%; border-color:#ef4444; color:#ef4444; margin-top:10px;" onclick="borrar()">BORRAR DÍA</button>
+            <button class="action-btn" style="width:100%; background:var(--neon-blue); color:black;" onclick="publicar()">GUARDAR RESULTADO</button>
+            <hr style="margin:15px 0; opacity:0.1;">
+            <p style="font-size:0.7rem; color:gray; text-align:center;">PARA BORRAR UN RESULTADO ESPECÍFICO,<br>VE AL HISTORIAL DESDE AQUÍ:</p>
+            <button class="action-btn" style="width:100%; border-color:#f59e0b; color:#f59e0b;" onclick="irABorrar()">MODO CORRECCIÓN</button>
         </div>
         <button class="action-btn" onclick="cerrarModales()" style="width:100%; margin-top:10px; background:#334155; color:white;">SALIR</button>
     </div></div>
@@ -99,118 +99,96 @@
     <script>
         const SB_URL = "https://hzvbfpmjxhqhpruhpimy.supabase.co/rest/v1/resultados";
         const SB_KEY = "sb_publishable_lErJ2rvkQkXLuCebY7485Q_iIQvdrog";
+        let isAdmin = false;
 
-        const ANIMALES = {"0":"DELFÍN","00":"BALLENA","1":"CARNERO","01":"CARNERO","2":"TORO","02":"TORO","3":"CIEMPIÉS","03":"CIEMPIÉS","4":"ALACRÁN","04":"ALACRÁN","5":"LEÓN","05":"LEÓN","6":"RANA","06":"RANA","7":"PERICO","07":"PERICO","8":"RATÓN","08":"RATÓN","9":"ÁGUILA","09":"ÁGUILA","10":"TIGRE","11":"GATO","12":"CABALLO","13":"MONO","14":"PALOMA","15":"ZORRO","16":"OSO","17":"PAVO","18":"BURRO","19":"CHIVO","20":"COCHINO","21":"GALLO","22":"CAMELLO","23":"CEBRA","24":"IGUANA","25":"GALLINA","26":"VACA","27":"PERRO","28":"ZAMURO","29":"ELEFANTE","30":"CAIMÁN","31":"LAPA","32":"ARDILLA","33":"PESCADO","34":"VENADO","35":"JIRAFA","36":"CULEBRA","37":"TORTUGA","38":"BÚFALO","39":"LECHUZA","40":"AVISPA","41":"CANGURO","42":"TUCÁN","43":"MARIPOSA","44":"CHIGÜIRE","45":"GARZA","46":"PUMA","47":"PAVO REAL","48":"PUERCOESPÍN","49":"PEREZA","50":"CANARIO","51":"PELÍCANO","52":"PULPO","53":"CARACOL","54":"GRILLO","55":"OSO HORMIGUERO","56":"TIBURÓN","57":"PATO","58":"HORMIGA","59":"PANTERA","60":"CAMALEÓN","61":"PANDA","62":"CACHICAMO","63":"CANGREJO","64":"GAVILÁN","65":"ARAÑA","66":"LOBO","67":"AVESTRUZ","68":"JAGUAR","69":"CONEJO","70":"BISONTE","71":"GUACAMAYA","72":"GORILA","73":"HIPOPÓTAMO","74":"TURPIAL","75":"GUÁCHARO"};
-
+        const ANIMALES = {"0":"DELFÍN","00":"BALLENA","1":"CARNERO","2":"TORO","3":"CIEMPIÉS","4":"ALACRÁN","5":"LEÓN","6":"RANA","7":"PERICO","8":"RATÓN","9":"ÁGUILA","10":"TIGRE","11":"GATO","12":"CABALLO","13":"MONO","14":"PALOMA","15":"ZORRO","16":"OSO","17":"PAVO","18":"BURRO","19":"CHIVO","20":"COCHINO","21":"GALLO","22":"CAMELLO","23":"CEBRA","24":"IGUANA","25":"GALLINA","26":"VACA","27":"PERRO","28":"ZAMURO","29":"ELEFANTE","30":"CAIMÁN","31":"LAPA","32":"ARDILLA","33":"PESCADO","34":"VENADO","35":"JIRAFA","36":"CULEBRA","37":"TORTUGA","38":"BÚFALO","39":"LECHUZA","40":"AVISPA","41":"CANGURO","42":"TUCÁN","43":"MARIPOSA","44":"CHIGÜIRE","45":"GARZA","46":"PUMA","47":"PAVO REAL","48":"PUERCOESPÍN","49":"PEREZA","50":"CANARIO","51":"PELÍCANO","52":"PULPO","53":"CARACOL","54":"GRILLO","55":"OSO HORMIGUERO","56":"TIBURÓN","57":"PATO","58":"HORMIGA","59":"PANTERA","60":"CAMALEÓN","61":"PANDA","62":"CACHICAMO","63":"CANGREJO","64":"GAVILÁN","65":"ARAÑA","66":"LOBO","67":"AVESTRUZ","68":"JAGUAR","69":"CONEJO","70":"BISONTE","71":"GUACAMAYA","72":"GORILA","73":"HIPOPÓTAMO","74":"TURPIAL","75":"GUÁCHARO"};
         const HORAS_REF = ["08:00 AM", "08:30 AM", "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM", "01:00 PM", "01:30 PM", "02:00 PM", "02:30 PM", "03:00 PM", "03:30 PM", "04:00 PM", "04:30 PM", "05:00 PM", "05:30 PM", "06:00 PM", "06:30 PM", "07:00 PM", "07:30 PM"];
 
         async function querySupabase(method, body = null, params = "") {
-            const options = {
-                method: method,
-                headers: { "apikey": SB_KEY, "Authorization": `Bearer ${SB_KEY}`, "Content-Type": "application/json", "Prefer": "return=minimal" }
-            };
+            const options = { method: method, headers: { "apikey": SB_KEY, "Authorization": `Bearer ${SB_KEY}`, "Content-Type": "application/json", "Prefer": "return=minimal" } };
             if (body) options.body = JSON.stringify(body);
             const response = await fetch(`${SB_URL}${params}`, options);
-            if (response.status === 201 || response.status === 204) return [];
-            return await response.json();
+            return response.status < 300 ? (method === 'GET' ? await response.json() : []) : null;
         }
 
-        // Reloj y Limpieza Automática de Día
-        let fechaActualCache = new Date().toISOString().split('T')[0];
-        setInterval(() => {
-            const ahora = new Date();
-            document.getElementById('reloj').innerText = ahora.toLocaleTimeString('es-VE', { hour12: false });
-            
-            const hoy = ahora.toISOString().split('T')[0];
-            if (hoy !== fechaActualCache) {
-                fechaActualCache = hoy;
-                resetTablero(); // Limpia la pantalla al cambiar el día
-            }
-        }, 1000);
+        setInterval(() => { document.getElementById('reloj').innerText = new Date().toLocaleTimeString('es-VE', { hour12: false }); }, 1000);
 
-        function resetTablero() {
-            ["Lotto-Activo", "La-Granjita", "Guácharo-Activo", "Lotto-Rey"].forEach(id => {
-                document.getElementById('v-'+id).innerText = "--";
-                document.getElementById('a-'+id).innerText = "ESPERANDO";
-            });
-        }
-
-        function abrirDirecto(l) { document.getElementById('h-lotto').value = l; abrirHistorial(); }
+        function abrirHistorial() { document.getElementById('modal-historial').style.display = 'flex'; document.getElementById('h-fecha').value = new Date().toISOString().split('T')[0]; cargarHistorial(); }
         
-        function abrirHistorial() { 
-            document.getElementById('modal-historial').style.display = 'flex'; 
-            document.getElementById('h-fecha').value = new Date().toISOString().split('T')[0]; 
-            cargarHistorial(); 
-        }
-
         async function cargarHistorial() {
             const f = document.getElementById('h-fecha').value;
             const l = document.getElementById('h-lotto').value;
             const cont = document.getElementById('hist-lista');
-            cont.innerHTML = "<tr><td colspan='2'>Cargando...</td></tr>";
-            try {
-                let data = await querySupabase('GET', null, `?fecha=eq.${f}&Lotto=eq.${l}`);
-                data.sort((a, b) => HORAS_REF.indexOf(a.hora) - HORAS_REF.indexOf(b.hora));
-                cont.innerHTML = "";
-                data.forEach(d => {
-                    cont.innerHTML += `<tr><td>${d.hora}</td><td><span class="hist-num">${d.numero}</span><span class="hist-anim">${d.animal}</span></td></tr>`;
-                });
-                if(data.length === 0) cont.innerHTML = "<tr><td colspan='2'>SIN DATOS PARA ESTA FECHA</td></tr>";
-            } catch(e) { cont.innerHTML = "<tr><td colspan='2'>ERROR DE CONEXIÓN</td></tr>"; }
+            cont.innerHTML = "<tr><td>Cargando...</td></tr>";
+            let data = await querySupabase('GET', null, `?fecha=eq.${f}&Lotto=eq.${l}`);
+            data.sort((a, b) => HORAS_REF.indexOf(a.hora) - HORAS_REF.indexOf(b.hora));
+            cont.innerHTML = "";
+            data.forEach(d => {
+                cont.innerHTML += `<tr>
+                    <td style="color:gray">${d.hora}</td>
+                    <td style="font-size:1.2rem; font-weight:bold;">${d.numero}</td>
+                    <td style="color:var(--neon-blue)">${d.animal}</td>
+                    <td>${isAdmin ? `<button class="btn-del" onclick="borrarRegistro('${d.id}')">BORRAR</button>` : ''}</td>
+                </tr>`;
+            });
         }
+
+        async function borrarRegistro(id) { if(confirm("¿BORRAR ESTE RESULTADO?")) { await querySupabase('DELETE', null, `?id=eq.${id}`); cargarHistorial(); actualizarTablero(); } }
 
         async function actualizarTablero() {
             const hoy = new Date().toISOString().split('T')[0];
-            try {
-                const data = await querySupabase('GET', null, `?fecha=eq.${hoy}`);
-                ["Lotto Activo", "La Granjita", "Guácharo Activo", "Lotto Rey"].forEach(l => {
-                    const id = l.replace(/ /g, "-");
-                    let filtrado = data.filter(d => d.Lotto === l);
-                    if(filtrado.length > 0) {
-                        filtrado.sort((a, b) => HORAS_REF.indexOf(a.hora) - HORAS_REF.indexOf(b.hora));
-                        const ultimo = filtrado[filtrado.length - 1];
-                        document.getElementById('v-'+id).innerText = ultimo.numero;
-                        document.getElementById('a-'+id).innerText = ultimo.animal;
-                    }
-                });
-            } catch(e) { console.log("Error al refrescar"); }
+            const data = await querySupabase('GET', null, `?fecha=eq.${hoy}`);
+            ["Lotto Activo", "La Granjita", "Guácharo Activo", "Lotto Rey"].forEach(l => {
+                const id = l.replace(/ /g, "-");
+                let filtrado = data.filter(d => d.Lotto === l);
+                if(filtrado.length > 0) {
+                    filtrado.sort((a, b) => HORAS_REF.indexOf(a.hora) - HORAS_REF.indexOf(b.hora));
+                    const ultimo = filtrado[filtrado.length - 1];
+                    document.getElementById('v-'+id).innerText = ultimo.numero;
+                    document.getElementById('a-'+id).innerText = ultimo.animal;
+                } else {
+                    document.getElementById('v-'+id).innerText = "--";
+                    document.getElementById('a-'+id).innerText = "ESPERANDO";
+                }
+            });
         }
 
-        // Panel Admin
-        let clickCount = 0;
-        document.getElementById('firma-admin').addEventListener('click', () => { clickCount++; if(clickCount >= 3) { document.getElementById('modal-admin').style.display = 'flex'; clickCount = 0; ajustarHorasAdmin(); } });
+        let cCount = 0;
+        document.getElementById('firma-admin').addEventListener('click', () => { cCount++; if(cCount >= 3) { document.getElementById('modal-admin').style.display = 'flex'; cCount = 0; ajustarHorasAdmin(); } });
+        function validar() { if(document.getElementById('pass').value === "45Bc*.Ks*9") { isAdmin = true; document.getElementById('login-sec').style.display = 'none'; document.getElementById('panel-sec').style.display = 'block'; document.getElementById('p-fecha').value = new Date().toISOString().split('T')[0]; } }
         
-        function validar() { if(document.getElementById('pass').value === "45Bc*.Ks*9") { document.getElementById('login-sec').style.display = 'none'; document.getElementById('panel-sec').style.display = 'block'; document.getElementById('p-fecha').value = new Date().toISOString().split('T')[0]; } else { alert("ERROR"); } }
-        
-        function ajustarHorasAdmin() { 
-            const l = document.getElementById('p-lotto').value; 
-            const hSel = document.getElementById('p-hora'); 
-            hSel.innerHTML = ""; 
-            const lista = (l === "Lotto Rey") ? ["08:30 AM", "09:30 AM", "10:30 AM", "11:30 AM", "12:30 PM", "01:30 PM", "02:30 PM", "03:30 PM", "04:30 PM", "05:30 PM", "06:30 PM", "07:30 PM"] : ["08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM"]; 
-            lista.forEach(h => hSel.innerHTML += `<option value="${h}">${h}</option>`); 
+        function irABorrar() { cerrarModales(); abrirHistorial(); }
+
+        function ajustarHorasAdmin() {
+            const l = document.getElementById('p-lotto').value;
+            const hSel = document.getElementById('p-hora');
+            hSel.innerHTML = "";
+            const lista = (l === "Lotto Rey") ? ["08:30 AM", "09:30 AM", "10:30 AM", "11:30 AM", "12:30 PM", "01:30 PM", "02:30 PM", "03:30 PM", "04:30 PM", "05:30 PM", "06:30 PM", "07:30 PM"] : ["08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM"];
+            lista.forEach(h => hSel.innerHTML += `<option value="${h}">${h}</option>`);
         }
-        
-        function mostrarPreview(val) { document.getElementById('p-animal-name').innerText = ANIMALES[val] || "---"; }
+
+        function mostrarPreview(v) { document.getElementById('p-animal-name').innerText = ANIMALES[v] || "---"; }
 
         async function publicar() {
-            const f = document.getElementById('p-fecha').value; 
-            const l = document.getElementById('p-lotto').value; 
-            const h = document.getElementById('p-hora').value; 
+            const f = document.getElementById('p-fecha').value;
+            const l = document.getElementById('p-lotto').value;
+            const h = document.getElementById('p-hora').value;
             const n = document.getElementById('p-num').value.trim();
-            if(!f || n==="") return;
-            try { 
-                await querySupabase('POST', { fecha: f, Lotto: l, hora: h, numero: n, animal: ANIMALES[n] || "ANIMAL" }); 
-                alert("PUBLICADO"); 
-                document.getElementById('p-num').value = ""; 
-                actualizarTablero(); 
-            } catch(e) { alert("ERROR"); }
+            if(n==="") return;
+            await querySupabase('POST', { fecha: f, Lotto: l, hora: h, numero: n, animal: ANIMALES[n] || "ANIMAL" });
+            alert("ÉXITO");
+            document.getElementById('p-num').value = "";
+            actualizarTablero();
         }
 
-        async function borrar() { const f = document.getElementById('p-fecha').value; const l = document.getElementById('p-lotto').value; if(confirm("¿BORRAR TODO EL DÍA?")) { await querySupabase('DELETE', null, `?fecha=eq.${f}&Lotto=eq.${l}`); resetTablero(); } }
+        function compartir() {
+            const text = "🚀 Revisa los resultados de hoy en NEXUS ANIMAL 8K: " + window.location.href;
+            window.open("whatsapp://send?text=" + encodeURIComponent(text));
+        }
 
-        function cerrarModales() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); document.getElementById('login-sec').style.display = 'block'; document.getElementById('panel-sec').style.display = 'none'; }
+        function cerrarModales() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); isAdmin = false; document.getElementById('login-sec').style.display = 'block'; document.getElementById('panel-sec').style.display = 'none'; }
 
-        window.onload = () => { actualizarTablero(); setInterval(actualizarTablero, 20000); };
+        window.onload = actualizarTablero;
     </script>
 </body>
 </html>
